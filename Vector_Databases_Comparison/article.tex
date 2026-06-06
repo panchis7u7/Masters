@@ -1,12 +1,64 @@
-\documentclass{article}
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+\author{Carlos Sebastian Madrigal Rodriguez}
 \title{
     Impact of Vector Databases on Information Retrieval for Artificial Intelligence Agents Specialized in SDN API Documentation
     \\[0.3cm] \large A Comparative Study of FAISS, PGVector, and Neo4j in Retrieval-Augmented Generation Architectures.
-    }
-\author{Carlos Sebastian Madrigal Rodriguez}
-\date{\today}
-\begin{document}
-\maketitle
-First document. This is a simple example, with no 
-extra parameters or packages included.
+}
+
+
+% ==================== TITLE PAGE ====================
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+
+    {\Huge\bfseries
+    Impact of Vector Databases on Information Retrieval for Artificial Intelligence Agents Specialized in SDN API Documentation\par}
+
+    \vspace{0.8cm}
+
+    {\Large
+    A Comparative Study of FAISS, PGVector, and Neo4j in Retrieval-Augmented Generation Architectures\par}
+
+    \vspace{2cm}
+
+    {\Large Carlos Sebastian Madrigal Rodriguez\par}
+
+    \vfill
+
+    {\large \today\par}
+\end{titlepage}
+
+\newpage % Forces the abstract onto the second page
+
+% ==================== ABSTRACT ====================
+\begin{abstract}
+
+As modern networks become increasingly software-defined and API-driven, the ability of automation 
+systems to understand and leverage their own capabilities has become a critical requirement. 
+Network automation platforms often expose hundreds of APIs that enable configuration, monitoring, 
+troubleshooting, and operational management tasks. However, these capabilities are typically documented 
+in large and complex technical repositories, making it difficult for both automation systems and network 
+engineers to efficiently discover and utilize the appropriate APIs for a given task. As a result, the 
+full potential of network automation is often limited by the accessibility and usability of the available documentation.
+\newline
+\newline
+Retrieval-Augmented Generation (RAG) architectures offer a promising approach for addressing this challenge 
+by enabling Artificial Intelligence (AI) agents to retrieve and reason over technical documentation in real time. 
+Such agents could serve as an intelligent knowledge layer that allows automation systems to become aware of 
+their available capabilities, dynamically identify suitable APIs, and support autonomous configuration, 
+troubleshooting, and operational decision-making. This study investigates the impact of different vector database 
+technologies on the effectiveness of this approach by comparing FAISS, PGVector, and Neo4j within a RAG-based 
+architecture focused on SDN API documentation. The evaluation considers information retrieval accuracy, response 
+quality, and retrieval latency to determine how the choice of vector database influences the performance of AI agents 
+designed to enhance network automation and assist engineers in accessing complex technical information. 
+Through this comparison, the research aims to identify the most suitable retrieval architecture for enabling intelligent, 
+self-aware automation systems in Software-Defined Networking environments.
+
+\end{abstract}
+
+% Rest of your document goes here
+
 \end{document}
