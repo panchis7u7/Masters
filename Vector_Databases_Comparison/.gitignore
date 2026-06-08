@@ -3,4 +3,9 @@
 *article.fls
 article.log
 *article.synctex.gz
+*.dvi
+*.bbl
+*.bcf
+*.blg
+*.run.xml
 venv
