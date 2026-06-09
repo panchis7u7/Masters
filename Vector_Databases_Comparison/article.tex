@@ -1,8 +1,10 @@
 \documentclass[11pt, a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{graphicx}
 \usepackage[style=apa,backend=biber]{biblatex}
 \addbibresource{references.bib}
+\graphicspath{ {./Drawings/} }
 
 \begin{document}
 \author{Carlos Sebastian Madrigal Rodriguez}
@@ -121,15 +123,21 @@ As a pre-processing task prior to vectorization, the key-value pairs are isolate
 
 This insures that each structured JSON entry transforms to a single string chunk capturing full context. 
 \subsection{Data Treatment}
-Data will be processed through a common ingestion pipeline followed by three independent storage/retrieval backends. The ingestion pipeline will include text extraction, cleaning, and embedding generation using a consistent model across all databases to ensure comparability. Each vector database will be configured according to best practices for optimal performance.
-
+Data will be processed through a common ingestion pipeline followed by three independent storage/retrieval backends. The ingestion pipeline will include text extraction, cleaning, and embedding generation using a consistent model across all databases to ensure comparability. Each vector database will be configured according to best practices for optimal performance and retrieval accuracy. The overall architecture of the ingestion pipeline is illustrated in Figure \ref{fig:ingestion_pipeline}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Ingestion-Pipeline.png}
+    \caption{Ingestion pipeline for processing API data.}
+    \label{fig:ingestion_pipeline}
+\end{figure}
+    
 \subsection{Evaluation Metrics}
 Retrieval results will be evaluated against a predefined set of queries designed to test various aspects of API discovery and information retrieval. Queries are subdivided into 3 groups and categorized based on complexity and relevance to typical network automation tasks:
 
 \begin{itemize}
-    \item \textbf{Group 1: Basic API Discovery} - Queries that require identifying specific API endpoints or parameters.
-    \item \textbf{Group 2: Contextual Understanding} - Queries that require understanding the context of API usage, such as dependencies or common use cases.
-    \item \textbf{Group 3: Complex Reasoning} - Queries that require multi-step reasoning or synthesis of information across multiple documentation sections.
+    \item \textbf{Group 1: Basic API Discovery}: Queries that require identifying specific API endpoints or parameters.
+    \item \textbf{Group 2: Contextual Understanding}: Queries that require understanding the context of API usage, such as dependencies or common use cases.
+    \item \textbf{Group 3: Complex Reasoning}: Queries that require multi-step reasoning or synthesis of information across multiple documentation sections.
 \end{itemize}
 
 Each group contains 15 queries, resulting in a total of 45 queries for evaluation. 
@@ -159,5 +167,9 @@ Retrieval accuracy will be on 4 differenct factors based on the relevance of ret
 Response quality will be assessed through human evaluation, where the usefulness and correctness of the retrieved information are rated on a Likert scale. 
 
 Latency will be measured as the time taken from query submission to retrieval response, where automation will be used to ensure consistent timing across all tests.
+
+\clearpage 
+
+\printbibliography
 
 \end{document}
