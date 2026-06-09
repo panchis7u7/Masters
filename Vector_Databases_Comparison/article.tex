@@ -1,53 +1,38 @@
 \documentclass[11pt, a4paper]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage[style=apa,backend=biber]{biblatex}
+\usepackage{titling}
+\usepackage{setspace}
+\onehalfspacing
+\setlength{\droptitle}{-4em}
 \addbibresource{references.bib}
 \graphicspath{ {./Drawings/} }
 
 \begin{document}
 \author{Carlos Sebastian Madrigal Rodriguez}
 \title{
-    Impact of Vector Databases on Information Retrieval for Artificial Intelligence Agents Specialized in SDN API Documentation
-    \\[0.3cm] \large A Comparative Study of FAISS, PGVector, and Neo4j in Retrieval-Augmented Generation Architectures.
+    \textbf{Impact of Vector Databases on Information Retrieval for AI Agents Specialized in SDN API Documentation}
 }
+\date{\today}
 
-% ==================== TITLE PAGE ====================
-
-\begin{titlepage}
-    \centering
-    \vspace*{3cm}
-
-    {\Huge\bfseries
-    Impact of Vector Databases on Information Retrieval for Artificial Intelligence Agents Specialized in SDN API Documentation\par}
-
-    \vspace{0.8cm}
-
-    {\Large
-    A Comparative Study of FAISS, PGVector, and Neo4j in Retrieval-Augmented Generation Architectures\par}
-
-    \vspace{2cm}
-
-    {\Large Carlos Sebastian Madrigal Rodriguez\par}
-
-    \vfill
-
-    {\large \today\par}
-\end{titlepage}
-
-\newpage % Forces the abstract onto the second page
+\maketitle
 
 % ==================== Introduction ====================
 
 \section{Introduction}
-\label{sec:introduction} % Used to reference this section later
+\label{sec:introduction} 
 
-As modern networks become increasingly software-defined and API-driven, the ability of automation systems to understand and leverage their own capabilities has become a critical requirement. Network automation platforms expose numerous APIs for configuration, monitoring, troubleshooting, and operational management. However, the complexity and volume of their documentation often make it difficult for both automation systems and network engineers to efficiently discover and utilize the appropriate APIs, limiting the full potential of network automation.
+As modern networks become increasingly software-defined and API-driven, automation platforms expose numerous APIs for configuration, monitoring, troubleshooting, and operational management. However, the complexity and volume of technical documentation and hardcoded API interacions often make it difficult for both automation systems and network engineers to efficiently identify and utilize the appropriate APIs, limiting the effectiveness of network automation.
 
-Retrieval-Augmented Generation (RAG) architectures offer a promising solution by enabling AI agents to retrieve and reason over technical documentation in real time. Combined with vector databases, these systems could perform semantic searches that help identify relevant APIs and support automation workflows through contextual reasoning rather than traditional keyword-based matching.
+Retrieval-Augmented Generation (RAG) architectures provide a promising approach to this challenge by combining large language models with external knowledge sources. Through semantic retrieval, these systems can access and reason over technical documentation in real time, enabling AI agents to discover relevant APIs and support automation workflows beyond traditional keyword-based search \parencite{lewis2020rag,wu2024ragsurvey}.
 
-Despite their growing adoption, the effectiveness of vector databases for technical documentation retrieval in network automation remains insufficiently understood. Different implementations may exhibit significant differences in retrieval accuracy, response quality, and operational performance, directly affecting the capabilities of AI-assisted automation systems.
+Vector databases constitute a key component of RAG architectures by enabling efficient similarity searches over embedded representations of documentation. This capability may improve the discovery of relevant technical information and facilitate contextual reasoning over large API repositories \parencite{johnson2019faiss}.
+
+Despite their growing adoption, the effectiveness of vector databases for technical documentation retrieval in network automation remains insufficiently understood. This research therefore investigates the use of vector databases for AI-driven retrieval of SDN API documentation and evaluates the performance of FAISS, PGVector, and Neo4j in terms of retrieval accuracy, response quality, and operational performance.
 
 % ==================== Materials and Methods ====================
 
@@ -123,7 +108,7 @@ As a pre-processing task prior to vectorization, the key-value pairs are isolate
 
 This insures that each structured JSON entry transforms to a single string chunk capturing full context. 
 \subsection{Data Treatment}
-Data will be processed through a common ingestion pipeline followed by three independent storage/retrieval backends. The ingestion pipeline will include text extraction, cleaning, and embedding generation using a consistent model across all databases to ensure comparability. Each vector database will be configured according to best practices for optimal performance and retrieval accuracy. The overall architecture of the ingestion pipeline is illustrated in Figure \ref{fig:ingestion_pipeline}.
+Data will be processed through a common ingestion pipeline followed by three independent storage/retrieval backends. The ingestion pipeline will include text extraction, cleaning, and embedding generation using a consistent model (Qwen3-Embedding-4B, which is specifically designed for text embedding and ranking tasks) across all databases to ensure comparability. Each vector database will be configured according to best practices for optimal performance and retrieval accuracy. The overall architecture of the ingestion pipeline is illustrated in Figure \ref{fig:ingestion_pipeline}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{Ingestion-Pipeline.png}
@@ -142,7 +127,7 @@ Retrieval results will be evaluated against a predefined set of queries designed
 
 Each group contains 15 queries, resulting in a total of 45 queries for evaluation. 
 
-Retrieval accuracy will be on 4 differenct factors based on the relevance of retrieved documents to the query.
+Retrieval accuracy will be evaluated on 4 different factors based on the relevance of retrieved documents to the query.
 
 \begin{itemize}
     \item \textbf{Precision@K}: Proportion of relevant documents in top K results.
