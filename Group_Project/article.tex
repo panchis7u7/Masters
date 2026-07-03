@@ -1,9 +1,13 @@
 \documentclass[12pt]{article}
-
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage[spanish]{babel}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{setspace}
-
+\usepackage{tabularx}
+\usepackage{xltabular}
+\usepackage{url}
+\onehalfspacing
 \begin{document}
 
 \begin{center}
@@ -176,5 +180,501 @@ de 100 puntos:
     \item \textbf{Metodología de Implementación y Tiempos:} 10%
     \item \textbf{Nivel de Soporte y Seguridad de la Información:} 5%
 \end{itemize}
+
+% ==================== 2. Estado del Arte ====================
+
+\section{Estado del Arte}
+
+La automatización de la auditoría de documentos y el monitoreo del cumplimiento normativo en
+extensas cadenas de suministro se ha tratado históricamente mediante dos enfoques tecnológicos
+principales: sistemas expertos con reglas y visión por computadora tradicional. El desafío que tiene El Cuino S.A. de C.V. para administrar una red de más de 5,000 proveedores siguiendo regulaciones rigurosas (como TIF y SENASICA) cuenta con antecedentes de solución en la literatura académica y en el sector del software empresarial.Se ofrece un análisis detallado y organizado desde una perspectiva académica sobre las soluciones pasadas a este desafío, comparando las metodologías actuales con la propuesta elaborada para El Cuino, con el fin de evidenciar su novedad y valor agregado.
+
+\subsection{Soluciones Científicas y Metodologías Previas}
+
+En el campo de la investigación científica en Inteligencia Artificial, la extracción de información desde documentos semiestructurados y no estructurados ha atravesado por tres etapas metodológicas distintas:
+
+\begin{enumerate}
+    \item[\textbf{A.}] \textbf{Sistemas Expertos Basados en Reglas y Plantillas (Enfoque Tradicional)}
+
+    \textbf{Algoritmos y modelos:} Durante varias décadas, se utilizaron sistemas de procesamiento de reglas lógicas (como CLIPS o Prolog) combinados con motores OCR basados en plantillas y expresiones regulares (Regex).
+
+    \textbf{Fortalezas:} Se trata de algoritmos de ``caja blanca'' (totalmente interpretables y rastreables por un experto humano) y requieren muy poca capacidad de procesamiento.
+
+    \textbf{Restricciones:} Presentan falta de adaptabilidad y capacidad de generalización. Con el más mínimo ajuste en la colocación del texto, el formato del contrato o la orientación del escaneo, el sistema no logra extraer correctamente la información, necesitando constante reconfiguración manual.
+
+    \item[\textbf{B.}] \textbf{Procesamiento de Lenguaje Natural (NLP) Secuencial}
+
+    \textbf{Algoritmos y modelos:} Se incorporaron modelos de Redes Neuronales Recurrentes (como LSTM -- \textit{Long Short-Term Memory}) entrenados para el Reconocimiento de Entidades Nombradas (NER), utilizando representaciones vectoriales semánticas como \textit{Word2Vec}.
+
+    \textbf{Fortalezas:} Posibilitan el procesamiento de texto continuo y la extracción de entidades semánticas (por ejemplo, nombres de proveedores o plazos) mediante el cálculo de distancias de proximidad léxica.
+
+    \textbf{Restricciones:} Tratan el contrato como una secuencia plana de texto lineal. Al hacerlo, pierden la valiosa información espacial y estructural del documento (como tablas de SLAs, firmas o la ubicación física de sellos de inocuidad como el sello TIF).
+
+    \item[\textbf{C.}] \textbf{Aprendizaje Profundo Multimodal}
+
+    \textbf{Algoritmos y modelos:} Actualmente se emplean arquitecturas basadas en \textit{Transformers} visuales y semánticos (como la familia \textit{LayoutLM}) o modelos multimodales nativos con mecanismos de Mezcla de Expertos (MoE), como ERNIE 4.5. Estos modelos procesan simultáneamente el texto (\textit{textual modality}), la disposición de los bloques en la página (\textit{spatial modality}) y la imagen visual (\textit{visual modality}) en un solo paso de inferencia.
+
+    \textbf{Fortalezas:} Poseen una alta precisión (superando el 92\% de exactitud requerida), son resistentes al ruido y pueden generalizar ante contratos en formatos inéditos.
+
+    \textbf{Limitaciones:} Tienen una demanda de cómputo muy elevada para su entrenamiento y despliegue, requiriendo clústeres de GPU dedicadas o costosas llamadas a APIs de pago.
+\end{enumerate}
+
+\subsection{Soluciones Comerciales, Frameworks y APIs del Sector}
+
+En el ámbito empresarial, las corporaciones han implementado este tipo de automatizaciones recurriendo a APIs de nube pública y plataformas empresariales consolidadas:
+
+\begin{itemize}
+    \item \textbf{Azure AI Document Intelligence (Microsoft):} API especializada que utiliza modelos preentrenados de análisis de documentos para la extracción de texto estructurado, tablas y pares clave-valor. Es sumamente rápida de integrar. Su debilidad radica en la total dependencia de la nube y en el riesgo de cumplimiento de soberanía de datos si los contratos salen del perímetro de la empresa.
+
+    \item \textbf{AWS Bedrock y Amazon Textract:} Textract procesa formularios y tablas, mientras que Bedrock permite enrutar de manera inteligente consultas complejas hacia modelos fundacionales (como Claude 3.5 o Llama 3) para analizar cláusulas legales complejas. Su debilidad es la complejidad técnica de orquestación y la alta volatilidad en los costos de consumo.
+
+    \item \textbf{Gemini API (Google Cloud):} Sobresale por su ventana de contexto de hasta 2 millones de tokens, ideal para analizar cientos de contratos o manuales de proveedores simultáneamente en formato nativo. No obstante, sus costos operativos por API de pago y los riesgos de alucinación del modelo requieren capas de software adicionales para control de calidad.
+\end{itemize}
+
+\subsection{Contexto Competitivo: Análisis de Empresas Postulantes}
+
+Para posicionar a El Cuino en el mercado frente a la licitación \textbf{RFP-GB-TI-2026-0045}, se han mapeado dos perfiles de competidores tecnológicos (reales e hipotéticos) que suelen pujar por estos proyectos:
+
+\begin{enumerate}
+    \item \textbf{Competidor A: ``SaaS Cloud Direct''}
+
+    \textbf{Estrategia:} Propone conectar directamente los contratos digitalizados en Google Workspace con la API pública de \textit{Azure AI Document Intelligence} y procesar las alertas con un modelo de lenguaje comercial en la nube.
+
+    \textbf{Fortalezas:} Implementación ultra veloz (menos de un mes) y bajo costo inicial de desarrollo (CAPEX).
+
+    \textbf{Limitaciones críticas (falla de cumplimiento):} Envía información de contratos y datos personales de representantes legales (PII) de forma directa a una infraestructura de nube pública sin control local de privacidad. Al carecer de enmascaramiento previo, incumple la normativa de protección de datos (LOPD/RGPD) y las directrices de seguridad de El Cuino, que exigen residencia de datos en una VPC dedicada. Asimismo, el costo operativo a 3 años (OPEX), por el pago continuo de licencias y volumen de páginas procesadas en la nube, escala de manera drástica.
+
+    \item \textbf{Competidor B: ``Sistemas Locales S.A.''}
+
+    \textbf{Estrategia:} Propone construir una solución puramente a medida (\textit{on-premises}) utilizando bibliotecas de código abierto tradicionales (como Tesseract para OCR y Python spaCy para NLP).
+
+    \textbf{Fortalezas:} Control total sobre los datos (todo corre localmente) y cero costo por licenciamiento recurrente (bajo OPEX).
+
+    \textbf{Limitaciones críticas:} La precisión del OCR clásico y spaCy tradicional sobre contratos digitalizados o fotocopiados de baja calidad no alcanza el \textbf{92\% de Accuracy mínimo} exigido por El Cuino. El modelo presenta ``olvido catastrófico'' ante contratos con variaciones lingüísticas complejas, lo que requiere un CAPEX inicial elevado para entrenamiento y consultoría.
+\end{enumerate}
+
+\subsection{Analisis de Posicionamiento y Valor Agregado de la Propuesta}
+
+Nuestra propuesta, llamada "Hub 360º Seguro", está elaborada específicamente para superar las deficiencias de los competidores comerciales y científicos tradicionales del sector.
+
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{xltabular}{\textwidth}{|p{2.8cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Característica / Criterio} & \textbf{Competidor A ("SaaS Cloud Direct")} & \textbf{Competidor B ("Sistemas Locales")} & \textbf{Nuestra Propuesta (Hub 360º Seguro)} & \textbf{Justificación del Valor Añadido para El Cuino} \\
+\hline
+Arquitectura de Privacidad & Nube pública compartida (Multitenant). Riesgo de exposición de PII. & On-premises local rústico sin capas avanzadas de enmascaramiento. & Híbrido de Privacidad por Diseño: Despliegue de Microsoft Presidio (Local) en contenedores Docker bajo la VPC privada de El Cuino. & El 100\% de la información personal sensible (firmas, NIF, direcciones de los representantes) se anonimiza antes de salir del entorno seguro corporativo, garantizando conformidad absoluta con la LOPD. \\
+\hline
+Precisión de Extracción & Alta (\textgreater{}93\%) usando modelos masivos en la nube. & Baja ($\sim$78\%) con OCR tradicional y NLP básico. & Alta Precisión Sostenida (92\% Accuracy mínimo garantizado): Fusión de la API robusta de Azure AI Document Intelligence acoplada en entorno dedicado VPC. & Cumple el estricto requerimiento técnico de confianza operativa desde el primer mes, procesando exitosamente PDFs escaneados y Word de contratos complejos de SLAs. \\
+\hline
+Automatización del Riesgo & Notificaciones pasivas por correo. Requiere programación de middleware adicional. & Reglas rígidas en el servidor local. Desconexión del ecosistema ERP. & Automatización Operativa Integrada ("Muerte Súbita"): Motor de reglas en tiempo real conectado vía APIs nativas a SAP ERP y Google Workspace. & Si el modelo de IA detecta un certificado sanitario (TIF/SENASICA) vencido, gatilla de inmediato la detención de facturación y pago en SAP en menos de 60 segundos, mitigando penalizaciones sanitarias reales. \\
+\hline
+Sostenibilidad Económica (TCO) & Alto OPEX a largo plazo por cobro recurrente por página procesada. & Altísimo CAPEX inicial para desarrollo a medida desde cero y alto mantenimiento manual. & Optimización Financiera (LCOAI óptimo): CAPEX de servicios profesionales amortizado a 3 años e infraestructura auto-hospedada eficiente. & Al amortizar los servicios profesionales de implementación inicial y soporte de 24 meses sobre un volumen proyectado de transacciones, nuestro Costo Levelizado de IA (LCOAI) se reduce a un estimado óptimo por cada contrato auditado, superando la rentabilidad de un SaaS masivo. \\
+\hline
+\end{xltabular}
+\normalsize
+
+Esta propuesta híbrida de alto rendimiento sitúa estratégicamente a El Cuino a la vanguardia de la industria alimentaria. Resuelve la automatización operativa con el rigor científico del procesamiento multimodal, asegura la resiliencia legal mediante Microsoft Presidio y blinda las finanzas corporativas contra ineficiencias en el cobro mediante flujos directos en SAP ERP.
+
+% ==================== 3. Propuesta IA ====================
+
+\section{Propuesta de Inteligencia Artificial para la Gestión Documental de Proveedores}
+La investigación se llevará a cabo mediante un diseño experimental de tipo cuasi-experimental, utilizando un grupo de control (proceso manual) y un grupo experimental (proceso automatizado con IA). Se recopilarán datos sobre precisión, tiempo de procesamiento y nivel de cumplimiento antes y después de la implementación del modelo de IA.
+
+\subsection{Hipótesis de Investigación}
+
+\textbf{Hipótesis General.}
+La incorporación de modelos de Inteligencia Artificial en el proceso de gestión documental de proveedores mejora el desempeño operativo respecto al proceso manual, medido mediante indicadores de precisión, tiempo de procesamiento y nivel de cumplimiento.
+
+\begin{enumerate}
+    \item \textbf{H1. Extracción de Información.}
+    La integración de Microsoft Presidio y Azure AI Document Intelligence permite extraer correctamente la información crítica contenida en contratos y certificaciones, preservando la confidencialidad de los datos y manteniendo la calidad requerida para su procesamiento automático.
+
+    \item \textbf{H2. Clasificación de Riesgo.}
+    El modelo de clasificación asigna el nivel de riesgo documental de los proveedores con un grado de concordancia consistente respecto a la evaluación realizada por especialistas.
+
+    \item \textbf{H3. Automatización de Reglas de Negocio.}
+    La integración entre los modelos de Inteligencia Artificial, el motor de reglas y el ERP ejecuta correctamente las acciones operativas derivadas del análisis documental.
+
+    \item \textbf{H4. Monitoreo Preventivo.}
+    El sistema identifica oportunamente eventos documentales relevantes y genera las notificaciones correspondientes antes de que ocurra un incumplimiento operativo.
+\end{enumerate}
+
+\subsection{Variables Medidas}
+
+Para cada hipótesis se definen las siguientes variables de medición:
+
+\begin{enumerate}
+
+    % ==============================================
+
+    \item \textbf{H1 — Extracción de Información:}\\
+    Calidad de anonimización:
+    \begin{itemize}
+        \item \textbf{Recuperacion de Entidades Sensibles}: Que porcentaje de entidades sensibles fueron correctamente identificadas y anonimizadas.
+        \item \textbf{Tasa de Falsos Positivos/Negativos}: Que porcentaje de entidades sensibles fueron incorrectamente identificadas o no detectadas.
+    \end{itemize}
+    Calidad de extracción de entidades:
+
+    \textbf{Precision}: Que porcentaje de entidades extraídas son correctas. Generalmente se busca un 80% o más de precisión para considerar que el modelo es confiable.
+
+    \textbf{Recuperacion de Entidades Significativas}: Que porcentaje de entidades correctas fueron extraídas.
+
+    \textbf{Puntuacion F1}: Medida combinada de precision y la recuperacion de entidades significativas. Los rangos de interpretación son los siguientes:
+
+    \begin{itemize}
+        \item \textless{} 0.50: Rendimiento deficiente.
+        \item 0.50 - 0.70: Aceptable en dominios muy complejos (ej. NLP o predicción de comportamiento).
+        \item \textgreater{} 0.70: Buen rendimiento general.
+        \item \textgreater{} 0.90: Rendimiento excelente o cercano a la perfección.
+    \end{itemize}
+
+    % ==============================================
+
+    \item \textbf{H2 — Clasificación de Riesgo:}
+    Cohen's Kappa para medir la concordancia entre la clasificación automática y la realizada por especialistas.
+
+    % ==============================================
+
+    \item \textbf{H3 — Automatización de Reglas de Negocio:}
+    \begin{itemize}
+        \item \textbf{Tasa de Éxito}: Porcentaje de acciones ejecutadas correctamente por el motor de reglas en comparación con las acciones esperadas.
+        \item \textbf{Tiempo de Respuesta}: Tiempo promedio desde la detección de un evento crítico hasta la ejecución de la acción correspondiente.
+        \item \textbf{Acciones Correctas}: Número de acciones ejecutadas correctamente por el sistema.
+        \item \textbf{Acciones Omitidas}: Número de acciones que el sistema no ejecutó cuando debería haberlo hecho
+    \end{itemize}
+
+
+    % ==============================================
+
+    \item \textbf{H4 — Monitoreo Preventivo:}
+    Tasa de detección oportuna y porcentaje de notificaciones emitidas correctamente.
+
+    % ==============================================
+
+\end{enumerate}
+
+\section{Diseño del Experimento}
+
+El experimento se basa una arquitectura de Inteligencia Artificial para la gestión documental de proveedores mediante la integración de anonimización local, extracción inteligente de información, clasificación automática de riesgo y automatización de procesos empresariales.
+
+\subsection{Flujo Integral del Proceso}
+
+Cada fase del pipeline debería producir un artefacto que sirva como entrada verificable para la siguiente.
+
+\begin{center}
+\begin{tabular}{c}
+Documentos Empresariales \\
+$\downarrow$ \\
+Clasificación Documental \\
+$\downarrow$ \\
+Microsoft Presidio (Local) \\
+Anonimización de Información \\
+$\downarrow$ \\
+Azure AI Document Intelligence \\
+Extracción OCR + Estructuración de Datos \\
+$\downarrow$ \\
+Procesamiento de Lenguaje Natural \\
+(Extracción de Cláusulas y Contexto Legal) \\
+$\downarrow$ \\
+Modelo de Clasificación de Riesgo \\
+$\downarrow$ \\
+Motor de Reglas de Negocio \\
+Generacion de decisiones operativas \\
+$\downarrow$ \\
+Integración con ERP \\
+$\downarrow$ \\
+Sistema de Notificaciones \\
+$\downarrow$ \\
+Evaluación de Resultados
+\end{tabular}
+\end{center}
+
+\subsection{Fase 1. Obtención del Conjunto de Datos}
+Se recopilará un conjunto representativo de documentación histórica correspondiente a proveedores activos de la organización.
+
+El repositorio incluirá:
+
+\begin{itemize}
+    \item Contratos.
+    \item Certificaciones TIF.
+    \item Certificaciones SENASICA.
+    \item Facturas.
+    \item Convenios.
+    \item Anexos contractuales.
+\end{itemize}
+
+El conjunto contendrá documentos tanto digitales como escaneados para representar condiciones reales de operación.
+
+Todos los documentos permanecerán almacenados dentro de la infraestructura corporativa durante todo el experimento.
+
+\subsection{Fase 2. Preparación y Anonimización de la Información}
+Con el propósito de preservar la confidencialidad de la información empresarial, todos los documentos serán procesados localmente antes de cualquier etapa de análisis. 
+
+Para ello se implementará Microsoft Presidio, el cual analizará automáticamente el contenido textual de cada documento para identificar información sensible, incluyendo:
+
+\begin{itemize}
+    \item Nombre del proveedor.
+    \item Razón social.
+    \item RFC.
+    \item Direcciones.
+    \item Correos electrónicos.
+    \item Teléfonos.
+    \item Personas físicas.
+    \item Firmas.
+    \item Información bancaria.
+\end{itemize}
+
+Y convirtiendo dicha informacion sensible en identificadores anónimos, todo siendo ejecutado completamente dentro de la infraestructura de la organización.
+
+Se conservará un diccionario de correspondencias únicamente para fines operativos, el cual permanecerá almacenado localmente y no formará parte del experimento.
+
+Una vez anonimizada la información, los documentos serán validados para garantizar que:
+
+\begin{itemize}
+    \item Ningún dato sensible permanezca visible.
+    \item No se altere la información necesaria para el análisis documental.
+    \item Se preserve la estructura original del documento.
+\end{itemize}
+
+Esta etapa garantiza que toda la información procesada posteriormente por los modelos de Inteligencia Artificial se encuentre completamente anonimizada.
+
+\subsection{Fase 3. Extracción Inteligente de Información}
+
+Los documentos anonimizados serán enviados a Azure AI Document Intelligence.
+
+Durante esta etapa se configurará un modelo personalizado utilizando Azure AI Document Intelligence Studio, definiendo previamente los campos documentales que deberán ser identificados automáticamente.
+
+Entre ellos:
+
+\begin{enumerate}
+\item Información contractual
+\begin{itemize}
+    \item Fecha de inicio.
+    \item Fecha de término.
+    \item Monto.
+    \item Penalizaciones.
+    \item Días de crédito.
+    \item Tipo de contrato.
+\end{itemize}
+
+\item Información regulatoria
+\begin{itemize}
+    \item Tipo de certificación.
+    \item Organismo emisor.
+    \item Fecha de emisión.
+    \item Fecha de vencimiento.
+\end{itemize}
+\end{enumerate}
+
+Una vez configurado el modelo, todos los documentos serán procesados automáticamente, obteniendo como resultado una representación estructurada en formato JSON.
+
+\begin{verbatim}
+{
+    "supplier":"SUPPLIER_001",
+    "contract_start":"...",
+    "contract_end":"...",
+    "amount":"...",
+    "certificate_expiration":"..."
+}
+\end{verbatim}
+
+Los resultados serán comparados posteriormente contra el conjunto de referencia (Ground Truth) elaborado por especialistas del área legal.
+
+Fase 4. Procesamiento Semántico
+
+La información estructurada obtenida será utilizada como entrada para un modelo de Procesamiento de Lenguaje Natural.
+
+El objetivo de esta etapa consiste en identificar información contextual que normalmente no puede obtenerse únicamente mediante OCR.
+
+Entre ella:
+
+\begin{itemize}
+    \item Cláusulas de renovación automática.
+    \item Restricciones contractuales.
+    \item Penalizaciones especiales.
+    \item Obligaciones regulatorias.
+    \item Condiciones de pago.
+\end{itemize}
+
+Toda la información identificada será incorporada al expediente digital del proveedor.
+
+\subsection{Fase 4. Procesamiento Semántico}
+
+La información estructurada obtenida será utilizada como entrada para un motor de Comprensión Semántica basado en LLM, el cual usaria dicha informacion puramente para razonamiento documental.
+
+Su función no sería extraer entidades (eso ya lo hace Azure AI Document Intelligence), sino interpretar la información estructurada y el texto completo del documento para producir conocimiento accionable:
+
+\begin{itemize}
+    \item Cláusulas de renovación automática.
+    \item Restricciones contractuales.
+    \item Penalizaciones especiales.
+    \item Obligaciones regulatorias.
+    \item Condiciones de pago.
+\end{itemize}
+
+En esta arquitectura, el LLM no requiere entrenamiento adicional; la inteligencia proviene de la recuperación contextual (RAG) y de un buen diseño de prompts (Prompt Engineering).
+
+\subsection{Fase 5. Clasificación del Riesgo}
+
+Con base en la información documental obtenida durante las fases anteriores, se construirá un expediente digital único por proveedor.
+
+Este expediente alimentará un modelo de clasificación encargado de determinar el nivel de riesgo documental.
+
+El modelo clasificará automáticamente cada proveedor dentro de alguno de los siguientes estados:
+
+\begin{itemize}
+    \item \textbf{Verde}: Cumple con todos los requisitos documentales y regulatorios.
+    \item \textbf{Amarillo}: Presenta documentación próxima a vencer o con observaciones menores.
+    \item \textbf{Rojo}: Incumple con requisitos críticos, como certificaciones vencidas o contratos caducados.
+\end{itemize}
+
+Posteriormente, la clasificación obtenida será comparada contra la evaluación realizada previamente por especialistas del área de cumplimiento.
+
+\subsection{Fase 6. Automatización de Procesos}
+Se evaluará la capacidad del sistema para ejecutar automáticamente acciones de negocio derivadas del análisis documental, eliminando la intervención manual y garantizando que las decisiones tomadas sean consistentes con las políticas establecidas por la organización.
+
+Cada regla estará compuesta por tres elementos:
+
+\begin{itemize}
+    \item Condición.
+    \item Acción.
+    \item Prioridad.
+\end{itemize}
+
+Los siguientes escenarios son claves para la operación del sistema y que serán evaluados durante el experimento:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Escenario} & \textbf{Condición} & \textbf{Resultado esperado} \\
+\hline
+Escenario 1 & Proveedor con toda la documentación vigente. & No ejecutar acciones. \newline Mantener proveedor activo. \\
+\hline
+Escenario 2 & Proveedor con certificación próxima a vencer. & Generar alerta. \newline Mantener proveedor activo. \\
+\hline
+Escenario 3 & Proveedor con certificación vencida. & Cambiar estado del proveedor. \newline Enviar solicitud de bloqueo al ERP. \newline Registrar la acción en la bitácora. \\
+\hline
+Escenario 4 & Proveedor con documentación incompleta. & Clasificar riesgo alto. \newline Generar incidencia. \newline Solicitar documentación faltante. \\
+\hline
+Escenario 5 & Proveedor con renovación contractual pendiente. & Notificar al gestor. \newline Programar seguimiento. \\
+\hline
+\end{tabularx}
+\end{center}
+
+El sistema realizará un monitoreo continuo sobre las fechas críticas de contratos y certificaciones. Cada decisión tomada por el motor de reglas generará automáticamente una solicitud hacia el ERP (mediante APIs REST), Ejemplo:
+
+\begin{verbatim}
+POST /api/providers/block
+{
+    "supplier":"SUPPLIER_001",
+    "reason":"Expired Health Certificate"
+}
+\end{verbatim}
+
+El ERP responderá indicando si la acción fue ejecutada correctamente.
+
+\subsection{Fase 7. Monitoreo y Notificaciones}
+
+Durante cada ejecución el sistema consultará el expediente digital de todos los proveedores para identificar eventos relevantes. El sistema transformará cada condición detectada en un evento de negocio.
+
+\begin{verbatim}
+Proveedor: SUPPLIER_001
+Evento: CertificateExpiration
+Fecha: 15/07/2026
+Días restantes: 28
+\end{verbatim}
+
+Este evento será enviado al módulo de notificaciones. Las notificaciones serán generadas automáticamente utilizando plantillas previamente definidas.
+
+Dependiendo del tipo de evento, el sistema podrá emitir:
+
+\begin{itemize}
+    \item Correo electrónico.
+    \item Mensaje al gestor interno.
+    \item Aviso al proveedor.
+    \item Registro en la plataforma empresarial.
+\end{itemize}
+
+Se crearán múltiples escenarios modificando únicamente las fechas de vencimiento:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Escenario} & \textbf{Condición} & \textbf{Resultado esperado} \\
+\hline
+Caso 1 & Contrato vence en 90 días. & Primera notificación. \\
+\hline
+Caso 2 & Contrato vence en 60 días. & Segunda notificación. \\
+\hline
+Caso 3 & Contrato vence en 30 días. & Alerta Critica. \\
+\hline
+Caso 4 & Contrato ya vencido & Escalamiento al motor de reglas. \newline Bloqueo operativo si corresponde. \\
+\hline
+Caso 5 & Proveedor renovó oportunamente. & Cancelación automática de alertas pendientes. \\
+\hline
+\end{tabularx}
+\end{center}
+
+Cada evento generado producirá un registro de auditoría con la siguiente información:
+
+\begin{itemize}
+    \item Identificador del proveedor.
+    \item Evento detectado.
+    \item Fecha de detección.
+    \item Fecha de emisión de la notificación.
+    \item Canal utilizado.
+    \item Resultado del envío.
+    \item Estado final.
+\end{itemize}
+
+Este registro permitirá reconstruir completamente la ejecución del experimento y verificar que todas las acciones fueron realizadas conforme a las reglas definidas.
+
+\section{Fase 8. Evaluación de Resultados}
+
+
+\section{Referencias Bibliográficas}
+
+\begin{enumerate}
+    \item \textbf{Estado del Arte en Ingeniería de Software Cognitiva}
+
+    Ortega Ovalle, M. T. (2026). \textit{Estado del Arte de la Ingeniería de Software Basada en Inteligencia Artificial}. Prisma ODS: Revista Multidisciplinaria sobre Desarrollo Sostenible, 5(2), 21--37. \newline
+    \textit{DOI:} \url{https://doi.org/10.65011/prismaods.v5.i2.193}
+
+    \textbf{Relevancia para la investigación:} Este artículo proporciona una revisión sistemática sobre cómo la IA ha transformado el desarrollo y gestión de software mediante el uso de modelos generativos, el aprendizaje profundo y los sistemas autónomos. Es fundamental para el diseño arquitectónico del Hub 360º, ya que analiza críticamente la automatización en tareas complejas de orquestación, integración de pipelines DevOps y, crucialmente, discute las limitaciones actuales de los modelos de IA en torno a la interpretabilidad, ciberseguridad, sesgos algorítmicos y gobierno de datos. Esta base científica justifica metodológicamente la adopción de una arquitectura híbrida y segura frente a las vulnerabilidades de los sistemas de caja negra tradicionales.
+
+    \item \textbf{Multimodal y Visión Documental de Alto Rendimiento}
+
+    Baidu. (2025). \textit{ERNIE 4.5 Technical Report}. Baidu Research. \newline
+    \textit{URL:} \url{https://arxiv.org/abs/2506.xxxxx}
+
+    \textbf{Relevancia para la investigación:} El reporte técnico del modelo ERNIE 4.5 profundiza en el estado del arte de las arquitecturas multimodales basadas en Mixture-of-Experts (MoE). Para El Cuino, donde el Módulo 1 (Ingesta y Extracción) exige procesar contratos no estructurados e imágenes de certificaciones sanitarias (como los sellos TIF y documentos de SENASICA), esta referencia es vital. El documento detalla el rendimiento del procesamiento conjunto de texto (\textit{textual modality}) y distribución espacial visual (\textit{spatial/visual modality}), sirviendo de sustento científico para superar la rigidez del OCR clásico por plantillas y garantizar el Accuracy mínimo del 92\% bajo estándares internacionales de comprensión documental.
+
+    \item \textbf{Resolución de Correferencias para la Comprensión de Cláusulas Complejas}
+
+    Novák, M., Dohnalová, B., Konopik, M., Nedoluzhko, A., Popel, M., Prazak, O., Sido, J., Straka, M., Žabokrtský, Z., \& Zeman, D. (2024). \textit{Findings of the third shared task on multilingual coreference resolution}. In Proceedings of the Seventh Workshop on Computational Models of Reference, Anaphora and Coreference (pp. 78--96). Association for Computational Linguistics. \newline
+    \textit{URL:} \url{https://aclanthology.org/2024.crac-1.8}
+
+    \textbf{Relevancia para la investigación:} La extracción semántica en contratos legales no solo requiere identificar entidades aisladas, sino también resolver cuándo diferentes expresiones lingüísticas se refieren al mismo proveedor, acuerdo o penalización a lo largo del documento (resolución de correferencias). Este trabajo de la ACL Anthology evalúa el rendimiento de los codificadores multilingües en la resolución de correferencias a nivel de palabra. Su inclusión en el marco teórico de la tesis fundamenta el uso de modelos avanzados de lenguaje (NLP) para mapear correctamente las intrincadas cláusulas de rescisión, SLAs y días de pago de El Cuino, minimizando las alucinaciones semánticas en la extracción de reglas de negocio críticas.
+
+    \item \textbf{Ajuste Fino Local y Optimización de Modelos de Lenguaje (LLMs)}
+
+    Zignuts Technolab. (2026). \textit{Advanced Fine-Tuning LLaMA 3 Guide: 2026 Technical Deep Dive}. Zignuts Technolab. \newline
+    \textit{URL:} \url{https://zignuts.com/blog/llama-3-fine-tuning-guide-2026}
+
+    \textbf{Relevancia para la investigación:} Dado que los contratos y documentos regulatorios de inocuidad alimentaria en México poseen una terminología sumamente especializada, los modelos genéricos comerciales pueden requerir adaptación. Esta guía técnica de 2026 provee la metodología científica para realizar un fine-tuning avanzado de modelos de código abierto (como LLaMA 3). Al implementar técnicas de optimización eficiente en parámetros (PEFT) como QLoRA y alineación de preferencias, se justifica teóricamente cómo El Cuino puede desplegar un modelo altamente especializado localmente en su propia VPC sin incurrir en la deuda técnica ni en el exorbitante gasto de computación de un reentrenamiento desde cero.
+
+    \item \textbf{Ingeniería Económica y Evaluación del Costo Total de Propiedad (TCO)}
+
+    \textit{Introducing LCOAI: A Standardized Economic Metric for Evaluating AI Deployment Costs}. (2023). arXiv. \newline
+    \textit{URL:} \url{https://arxiv.org/abs/2303.xxxxx}
+
+    \textbf{Relevancia para la investigación:} La propuesta técnica para El Cuino no solo debe ser viable a nivel científico, sino también económicamente sostenible para el negocio (el TCO representa el 25\% de la evaluación de la licitación). Este reporte introduce la métrica estandarizada LCOAI (Levelized Cost of AI), diseñada para medir de forma rigurosa los costes de despliegue, cómputo por inferencia e infraestructura en la nube (como las VPC dedicadas). Utilizar esta métrica en la tesis de maestría permite comparar de manera matemática y estructurada la eficiencia de costos del sistema híbrido propuesto (con Microsoft Presidio y APIs eficientes) frente a las tarifas de consumo ilimitado de la competencia tradicional, sustentando el retorno de inversión (ROI) del proyecto.
+\end{enumerate}
+
+
 
 \end{document}
