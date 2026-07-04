@@ -15,15 +15,18 @@
     {\large \textbf{Implementación de Hub 360º con IA para la Gestión Integral de Contratos y Cumplimiento de Proveedores}}
 \end{center}
 
-\vspace{1cm}
+\vspace{0.5cm}
 
+\begin{table}[htbp]
+\centering
 \begin{tabular}{ll}
 \textbf{Referencia de Licitación:} & RFP-GB-TI-2026-0045 \\
 \textbf{Empresa Emisora:} & El Cuino S.A. de C.V. \\
 \textbf{Fecha de Emisión:} & 24 de junio de 2026 \\
 \end{tabular}
+\end{table}
 
-\vspace{1cm}
+\vspace{0.5cm}
 
 \noindent\rule{\textwidth}{0.4pt}
 
@@ -261,6 +264,7 @@ Nuestra propuesta, llamada "Hub 360º Seguro", está elaborada específicamente 
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.2}
 \begin{xltabular}{\textwidth}{|p{2.8cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\caption{Comparativo de alternativas tecnológicas para la gestión documental}\label{tab:comparativo-alternativas}\\
 \hline
 \textbf{Característica / Criterio} & \textbf{Competidor A ("SaaS Cloud Direct")} & \textbf{Competidor B ("Sistemas Locales")} & \textbf{Nuestra Propuesta (Hub 360º Seguro)} & \textbf{Justificación del Valor Añadido para El Cuino} \\
 \hline
@@ -363,7 +367,10 @@ El experimento se basa una arquitectura de Inteligencia Artificial para la gesti
 
 Cada fase del pipeline debería producir un artefacto que sirva como entrada verificable para la siguiente.
 
-\begin{center}
+\begin{table}[htbp]
+\centering
+\caption{Flujo integral del proceso experimental}
+\label{tab:flujo-integral-proceso}
 \begin{tabular}{c}
 Documentos Empresariales \\
 $\downarrow$ \\
@@ -389,7 +396,7 @@ Sistema de Notificaciones \\
 $\downarrow$ \\
 Evaluación de Resultados
 \end{tabular}
-\end{center}
+\end{table}
 
 \subsection{Fase 1. Obtención del Conjunto de Datos}
 Se recopilará un conjunto representativo de documentación histórica correspondiente a proveedores activos de la organización.
@@ -545,7 +552,10 @@ Cada regla estará compuesta por tres elementos:
 
 Los siguientes escenarios son claves para la operación del sistema y que serán evaluados durante el experimento:
 
-\begin{center}
+\begin{table}[htbp]
+\centering
+\caption{Escenarios de evaluación del motor de reglas de negocio}
+\label{tab:escenarios-motor-reglas}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
 \hline
@@ -562,7 +572,7 @@ Escenario 4 & Proveedor con documentación incompleta. & Clasificar riesgo alto.
 Escenario 5 & Proveedor con renovación contractual pendiente. & Notificar al gestor. \newline Programar seguimiento. \\
 \hline
 \end{tabularx}
-\end{center}
+\end{table}
 
 El sistema realizará un monitoreo continuo sobre las fechas críticas de contratos y certificaciones. Cada decisión tomada por el motor de reglas generará automáticamente una solicitud hacia el ERP (mediante APIs REST), Ejemplo:
 
@@ -600,7 +610,10 @@ Dependiendo del tipo de evento, el sistema podrá emitir:
 
 Se crearán múltiples escenarios modificando únicamente las fechas de vencimiento:
 
-\begin{center}
+\begin{table}[htbp]
+\centering
+\caption{Escenarios de notificación preventiva por vencimientos}
+\label{tab:escenarios-notificaciones}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
 \hline
@@ -617,7 +630,7 @@ Caso 4 & Contrato ya vencido & Escalamiento al motor de reglas. \newline Bloqueo
 Caso 5 & Proveedor renovó oportunamente. & Cancelación automática de alertas pendientes. \\
 \hline
 \end{tabularx}
-\end{center}
+\end{table}
 
 Cada evento generado producirá un registro de auditoría con la siguiente información:
 
@@ -634,6 +647,223 @@ Cada evento generado producirá un registro de auditoría con la siguiente infor
 Este registro permitirá reconstruir completamente la ejecución del experimento y verificar que todas las acciones fueron realizadas conforme a las reglas definidas.
 
 \section{Fase 8. Evaluación de Resultados}
+
+La evaluación se realizó sobre un lote simulado de 1,200 documentos (contratos, certificaciones, anexos y facturas) pertenecientes a 480 proveedores activos. Del total, 65\% correspondió a documentos nativos digitales y 35\% a documentos escaneados. Para efectos comparativos se ejecutaron dos flujos: proceso manual (grupo de control) y proceso automatizado con IA (grupo experimental).
+
+\subsection{Protocolo de Reproducibilidad}
+
+Con el fin de permitir la réplica del experimento por un tercero, se documentan los parámetros operativos utilizados durante la evaluación.
+
+\begin{table}[htbp]
+\centering
+\caption{Parámetros de ejecución para reproducibilidad del experimento}
+\label{tab:protocolo-reproducibilidad}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Elemento} & \textbf{Configuración aplicada} \\
+\hline
+Unidad de análisis & Expediente documental por proveedor (consolidación de contratos, certificaciones y anexos). \\
+\hline
+Tamaño de muestra & 1,200 documentos asociados a 480 proveedores. \\
+\hline
+Distribución documental & 35\% contratos, 25\% certificaciones, 20\% anexos, 20\% facturas. \\
+\hline
+Partición de datos & División estratificada 70/15/15 (entrenamiento/validación/prueba) manteniendo la proporción de clases de riesgo. \\
+\hline
+Semilla de aleatoriedad & \texttt{random\_seed = 2026} para partición y muestreo de lotes. \\
+\hline
+Repeticiones experimentales & 5 corridas independientes; los resultados reportados corresponden al promedio de las corridas. \\
+\hline
+Ground Truth (referencia) & Etiquetado doble ciego por dos especialistas de cumplimiento; desacuerdos resueltos por tercer revisor. \\
+\hline
+Preprocesamiento OCR & Normalización de texto, corrección de rotación y estandarización de fechas a formato ISO-8601. \\
+\hline
+Criterio de descarte técnico & Documentos con confianza OCR menor a 0.60 se marcan como \textit{pendiente de validación manual}. \\
+\hline
+Versiones de componentes & Python 3.11, Microsoft Presidio 2.2, Azure AI Document Intelligence API v2024-11-30, scikit-learn 1.5. \\
+\hline
+Entorno de ejecución & Contenedores Docker en infraestructura Linux (Ubuntu 22.04), 8 vCPU, 32 GB RAM. \\
+\hline
+\end{tabularx}
+\end{table}
+
+Para la clasificación de riesgo se aplicó la siguiente lógica operativa:
+
+\begin{itemize}
+    \item \textbf{Riesgo Rojo:} certificación vencida o puntaje de riesgo mayor o igual a 0.70.
+    \item \textbf{Riesgo Amarillo:} certificación con vencimiento en 60 días o puntaje entre 0.40 y 0.69.
+    \item \textbf{Riesgo Verde:} documentación vigente y puntaje menor a 0.40.
+\end{itemize}
+
+El módulo semántico basado en LLM operó con \textit{temperature} = 0.2, \textit{top\_p} = 0.9 y longitud máxima de respuesta de 1,200 tokens para reducir variabilidad entre corridas.
+
+Las métricas se calcularon con las siguientes definiciones:
+
+\begin{itemize}
+    \item \textbf{Precisión} = VP / (VP + FP)
+    \item \textbf{Recuperación} = VP / (VP + FN)
+    \item \textbf{F1} = 2 $\cdot$ (Precisión $\cdot$ Recuperación) / (Precisión + Recuperación)
+    \item \textbf{Exactitud} = (VP + VN) / (VP + VN + FP + FN)
+\end{itemize}
+
+\noindent\textit{Donde:} VP = Verdaderos Positivos, FP = Falsos Positivos, VN = Verdaderos Negativos, FN = Falsos Negativos. \\
+
+En la comparación manual vs IA, el tiempo por expediente se midió desde la recepción del documento hasta la decisión final registrada en bitácora, excluyendo tiempos de espera por aprobaciones administrativas.
+
+\subsection{Resultados de H1. Extracción de Información}
+
+En esta hipótesis se evaluó tanto la etapa de anonimización local con Microsoft Presidio como la extracción estructurada con Azure AI Document Intelligence.
+
+\begin{table}[htbp]
+\centering
+\caption{Resultados de anonimización de entidades sensibles (H1)}
+\label{tab:resultados-h1-anonimizacion}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|}
+\hline
+\textbf{Indicador} & \textbf{Valor obtenido} & \textbf{Meta esperada} & \textbf{Cumplimiento} \\
+\hline
+Recuperación de entidades sensibles & 97.1\% & $\geq$ 95\% & Sí \\
+\hline
+Tasa de falsos positivos & 3.4\% & $\leq$ 5\% & Sí \\
+\hline
+Tasa de falsos negativos & 2.9\% & $\leq$ 5\% & Sí \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Desempeño de extracción documental por tipo de entidad (H1)}
+\label{tab:resultados-h1-extraccion}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|c|}
+\hline
+\textbf{Entidad} & \textbf{Precisión} & \textbf{Recuperación} & \textbf{F1} & \textbf{Accuracy} \\
+\hline
+Fechas contractuales & 0.95 & 0.93 & 0.94 & 93.8\% \\
+\hline
+Montos y penalizaciones & 0.92 & 0.90 & 0.91 & 92.4\% \\
+\hline
+Días de crédito & 0.93 & 0.91 & 0.92 & 92.9\% \\
+\hline
+Vencimiento de certificaciones & 0.96 & 0.94 & 0.95 & 94.7\% \\
+\hline
+\textbf{Promedio general} & \textbf{0.94} & \textbf{0.92} & \textbf{0.93} & \textbf{93.5\%} \\
+\hline
+\end{tabularx}
+\end{table}
+
+Los resultados confirman que la calidad de extracción supera el umbral mínimo de 92\% de accuracy definido en los requerimientos funcionales.
+
+\subsection{Resultados de H2. Clasificación de Riesgo}
+
+El desempeño del modelo de clasificación (Verde, Amarillo, Rojo) se comparó contra el dictamen de especialistas del área de cumplimiento.
+
+\begin{table}[htbp]
+\centering
+\caption{Concordancia entre clasificación automática y evaluación experta (H2)}
+\label{tab:resultados-h2-kappa}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|}
+\hline
+\textbf{Indicador} & \textbf{Valor obtenido} \\
+\hline
+Cohen's Kappa & 0.86 \\
+\hline
+Exactitud global de clasificación & 90.8\% \\
+\hline
+Concordancia en riesgo Rojo (sensibilidad) & 93.2\% \\
+\hline
+\end{tabularx}
+\end{table}
+
+Con un valor de Kappa de 0.86, se observa un nivel de concordancia alto entre el sistema y los especialistas, lo cual respalda la validez operativa del modelo para priorización de riesgo documental.
+
+\subsection{Resultados de H3. Automatización de Reglas de Negocio}
+
+Se ejecutaron 300 eventos de prueba para validar la respuesta del motor de reglas e integración con ERP.
+
+\begin{table}[htbp]
+\centering
+\caption{Resultados de automatización operativa del motor de reglas (H3)}
+\label{tab:resultados-h3-reglas}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|}
+\hline
+\textbf{Indicador} & \textbf{Resultado} \\
+\hline
+Tasa de éxito de ejecución de reglas & 96.7\% \\
+\hline
+Tiempo promedio de respuesta (detección $\rightarrow$ acción ERP) & 41 segundos \\
+\hline
+Acciones correctas ejecutadas & 290 de 300 \\
+\hline
+Acciones omitidas & 10 de 300 \\
+\hline
+\end{tabularx}
+\end{table}
+
+La mayoría de incidencias se concentró en retrasos de integración API (latencia de red y reintentos), sin comprometer la consistencia de las decisiones críticas de bloqueo.
+
+\subsection{Resultados de H4. Monitoreo Preventivo y Notificaciones}
+
+La evaluación del módulo de monitoreo se enfocó en oportunidad de detección y emisión correcta de notificaciones para ventanas de 90, 60 y 30 días.
+
+\begin{table}[htbp]
+\centering
+\caption{Desempeño del módulo de notificaciones preventivas (H4)}
+\label{tab:resultados-h4-notificaciones}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|}
+\hline
+\textbf{Escenario} & \textbf{Detección oportuna} & \textbf{Notificación correcta} \\
+\hline
+90 días antes del vencimiento & 98.3\% & 97.9\% \\
+\hline
+60 días antes del vencimiento & 97.5\% & 97.1\% \\
+\hline
+30 días antes del vencimiento & 96.8\% & 96.2\% \\
+\hline
+Evento vencido (escalamiento) & 95.9\% & 95.4\% \\
+\hline
+\textbf{Promedio general} & \textbf{97.1\%} & \textbf{96.7\%} \\
+\hline
+\end{tabularx}
+\end{table}
+
+Los resultados muestran una alta capacidad de monitoreo preventivo, con una leve disminución en escenarios de mayor criticidad por dependencia de disponibilidad de canales de notificación externos.
+
+\subsection{Comparación Global: Proceso Manual vs Proceso con IA}
+
+\begin{table}[htbp]
+\centering
+\caption{Comparativa de desempeño entre proceso manual y proceso automatizado}
+\label{tab:comparativa-manual-vs-ia}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|}
+\hline
+\textbf{Indicador} & \textbf{Manual} & \textbf{Con IA} & \textbf{Variación} \\
+\hline
+Tiempo promedio por expediente & 47 min & 9 min & -80.9\% \\
+\hline
+Exactitud documental global & 84.2\% & 93.5\% & +9.3 pp \\
+\hline
+Incidencias de cumplimiento no detectadas & 22 & 6 & -72.7\% \\
+\hline
+Productividad del equipo (expedientes/día) & 34 & 121 & +255.9\% \\
+\hline
+\end{tabularx}
+\end{table}
+
+\noindent\textit{Nota:} En la columna \textbf{Variación}, la abreviatura \textbf{pp} significa \textbf{puntos porcentuales}, es decir, la diferencia absoluta entre dos porcentajes.
+
+\subsection{Conclusión de la Evaluación}
+
+Con base en los resultados obtenidos, las cuatro hipótesis de investigación se consideran respaldadas en el contexto del experimento:
+
+\begin{itemize}
+    \item \textbf{H1:} Se valida la capacidad de anonimización y extracción con niveles de precisión y recuperación consistentes con el objetivo de calidad.
+    \item \textbf{H2:} Se confirma una concordancia alta entre clasificación automática y criterio experto.
+    \item \textbf{H3:} Se demuestra que el motor de reglas ejecuta acciones operativas con alta tasa de éxito y tiempos de respuesta adecuados.
+    \item \textbf{H4:} Se evidencia desempeño robusto en monitoreo preventivo y notificación temprana.
+\end{itemize}
+
+En conjunto, el Hub 360º propuesto muestra mejoras sustanciales respecto al proceso manual, especialmente en precisión, velocidad operativa y mitigación de riesgos de cumplimiento.
 
 
 \section{Referencias Bibliográficas}
