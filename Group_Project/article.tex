@@ -55,6 +55,9 @@ tácita del Acuerdo de Confidencialidad previamente firmado por las partes.
 
 \section{Misión, visión y perfil del cliente}
 
+\subsection{Slogan}
+IA a la medida: Maximizando la eficiencia de tus procesos para liderar el futuro.
+
 \subsection{Misión}
 Impulsar la innovación continua en los corporativos al integrar Inteligencia Artificial en su ADN operativo, elevando su eficiencia al máximo nivel para convertirlos en los referentes indiscutibles de su industria.
 
@@ -80,19 +83,27 @@ El cliente que requiere la solución es \textbf{El Cuino S.A. de C.V.}, empresa 
     \textbf{Cliente: El Cuino S.A. de C.V.}
 \end{center}
 
-% ==================== 2. Reglas y Calendario ====================
+\subsection{Objetivos, Metas e Indicadores}
 
-\section{Reglas de la licitación y calendario}
-El proceso de licitación se regirá por el siguiente calendario estricto. Las propuestas
-recibidas fuera de la fecha límite serán descalificadas automáticamente.
-\begin{itemize}
-    \item Emisión del RFP: 24 de Junio de 2026.
-    \item Recepción de dudas y preguntas: Hasta el 01 de Julio de 2026.
-    \item Respuestas a dudas por parte de Bafar: 03 de Julio de 2026.
-    \item Fecha Límite para Entrega de Propuestas: 06 de Julio de 2026 (18:00 hrs, CDMX).
-    \item Presentación y Defensa (Pitch) de Finalistas: 03 al 07 de Agosto de 2026.
-    \item Fallo y Adjudicación del Proyecto: 14 de Agosto de 2026.
-\end{itemize}
+\textbf{Objetivo Particular:}
+
+Implementar una arquitectura de Inteligencia Artificial que automatice la auditoría de contratos para maximizar la productividad operativa de la organización.
+
+\textbf{Objetivos Específicos:}
+
+\begin{enumerate}
+    \item \textbf{Eficiencia Operativa:} Automatizar la extracción de datos de los contratos de proveedores.
+    
+    \textit{Meta:} Disminuir el tiempo de auditoría documental de 4,000 horas anuales a menos de 800 horas durante el primer año de implementación.
+    
+    \textit{Indicador:} Tiempo promedio de procesamiento por expediente documental.
+    
+    \item \textbf{Cumplimiento Normativo:} Mitigar el riesgo de multas y paros operativos por vencimiento de documentos.
+    
+    \textit{Meta:} Garantizar que el 100\% de las certificaciones críticas de la cadena de suministro se auditen preventivamente.
+    
+    \textit{Indicador:} Porcentaje de precisión (Accuracy) en la detección de fechas clave (debe ser $>92\%$).
+\end{enumerate}
 
 % ==================== 3. Contexto y Problematica ====================
 
@@ -393,12 +404,12 @@ Para cada hipótesis se definen las siguientes variables de medición:
 El experimento se basa una arquitectura de Inteligencia Artificial para la gestión documental de proveedores mediante la integración de anonimización local, extracción inteligente de información, clasificación automática de riesgo y automatización de procesos empresariales.
 
 \subsection{Flujo Integral del Proceso}
-
 Cada fase del pipeline debería producir un artefacto que sirva como entrada verificable para la siguiente.
 
-\begin{table}[htbp]
+\begin{table}[!ht]
 \centering
-\caption{Flujo integral del proceso experimental}
+\caption{Flujo integral del proceso experimental} 
+\vspace{0.3cm}
 \label{tab:flujo-integral-proceso}
 \begin{tabular}{c}
 Documentos Empresariales \\
@@ -464,23 +475,13 @@ Para ello se implementará Microsoft Presidio, el cual analizará automáticamen
 
 Y convirtiendo dicha informacion sensible en identificadores anónimos, todo siendo ejecutado completamente dentro de la infraestructura de la organización.
 
-Se conservará un diccionario de correspondencias únicamente para fines operativos, el cual permanecerá almacenado localmente y no formará parte del experimento.
+Se conservará un diccionario de correspondencias únicamente para fines operativos, almacenado localmente.
 
-Una vez anonimizada la información, los documentos serán validados para garantizar que:
-
-\begin{itemize}
-    \item Ningún dato sensible permanezca visible.
-    \item No se altere la información necesaria para el análisis documental.
-    \item Se preserve la estructura original del documento.
-\end{itemize}
-
-Esta etapa garantiza que toda la información procesada posteriormente por los modelos de Inteligencia Artificial se encuentre completamente anonimizada.
+Una vez anonimizada, se valida que: (i) ningún dato sensible sea visible, (ii) se preserve información para análisis documental, y (iii) la estructura original se mantenga. Esto asegura que toda información procesada por los modelos de IA esté completamente anonimizada.
 
 \subsection{Fase 3. Extracción Inteligente de Información}
 
-Los documentos anonimizados serán enviados a Azure AI Document Intelligence.
-
-Durante esta etapa se configurará un modelo personalizado utilizando Azure AI Document Intelligence Studio, definiendo previamente los campos documentales que deberán ser identificados automáticamente.
+Los documentos anonimizados serán enviados a Azure AI Document Intelligence. Se configurará un modelo personalizado definiendo los campos documentales a identificar automáticamente.
 
 Entre ellos:
 
@@ -518,29 +519,9 @@ Una vez configurado el modelo, todos los documentos serán procesados automátic
 
 Los resultados serán comparados posteriormente contra el conjunto de referencia (Ground Truth) elaborado por especialistas del área legal.
 
-Fase 4. Procesamiento Semántico
-
-La información estructurada obtenida será utilizada como entrada para un modelo de Procesamiento de Lenguaje Natural.
-
-El objetivo de esta etapa consiste en identificar información contextual que normalmente no puede obtenerse únicamente mediante OCR.
-
-Entre ella:
-
-\begin{itemize}
-    \item Cláusulas de renovación automática.
-    \item Restricciones contractuales.
-    \item Penalizaciones especiales.
-    \item Obligaciones regulatorias.
-    \item Condiciones de pago.
-\end{itemize}
-
-Toda la información identificada será incorporada al expediente digital del proveedor.
-
 \subsection{Fase 4. Procesamiento Semántico}
 
-La información estructurada obtenida será utilizada como entrada para un motor de Comprensión Semántica basado en LLM, el cual usaria dicha informacion puramente para razonamiento documental.
-
-Su función no sería extraer entidades (eso ya lo hace Azure AI Document Intelligence), sino interpretar la información estructurada y el texto completo del documento para producir conocimiento accionable:
+La información estructurada será procesada por un motor de Comprensión Semántica basado en LLM para razonamiento documental e interpretación de cláusulas complejas, produciendo conocimiento accionable:
 
 \begin{itemize}
     \item Cláusulas de renovación automática.
@@ -550,7 +531,7 @@ Su función no sería extraer entidades (eso ya lo hace Azure AI Document Intell
     \item Condiciones de pago.
 \end{itemize}
 
-En esta arquitectura, el LLM no requiere entrenamiento adicional; la inteligencia proviene de la recuperación contextual (RAG) y de un buen diseño de prompts (Prompt Engineering).
+El LLM opera sin entrenamiento adicional mediante recuperación contextual (RAG) y Prompt Engineering.
 
 \subsection{Fase 5. Clasificación del Riesgo}
 
@@ -569,21 +550,14 @@ El modelo clasificará automáticamente cada proveedor dentro de alguno de los s
 Posteriormente, la clasificación obtenida será comparada contra la evaluación realizada previamente por especialistas del área de cumplimiento.
 
 \subsection{Fase 6. Automatización de Procesos}
-Se evaluará la capacidad del sistema para ejecutar automáticamente acciones de negocio derivadas del análisis documental, eliminando la intervención manual y garantizando que las decisiones tomadas sean consistentes con las políticas establecidas por la organización.
+Se evaluará la capacidad del sistema para ejecutar automáticamente acciones de negocio derivadas del análisis documental, garantizando consistencia con políticas organizacionales. Cada regla contiene: Condición, Acción y Prioridad.
 
-Cada regla estará compuesta por tres elementos:
-
-\begin{itemize}
-    \item Condición.
-    \item Acción.
-    \item Prioridad.
-\end{itemize}
-
-Los siguientes escenarios son claves para la operación del sistema y que serán evaluados durante el experimento:
+Los siguientes escenarios serán evaluados durante el experimento:
 
 \begin{table}[htbp]
 \centering
 \caption{Escenarios de evaluación del motor de reglas de negocio}
+\vspace{0.3cm}
 \label{tab:escenarios-motor-reglas}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
@@ -642,6 +616,7 @@ Se crearán múltiples escenarios modificando únicamente las fechas de vencimie
 \begin{table}[htbp]
 \centering
 \caption{Escenarios de notificación preventiva por vencimientos}
+\vspace{0.3cm}
 \label{tab:escenarios-notificaciones}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
@@ -686,6 +661,7 @@ Con el fin de permitir la réplica del experimento por un tercero, se documentan
 \begin{table}[htbp]
 \centering
 \caption{Parámetros de ejecución para reproducibilidad del experimento}
+\vspace{0.3cm}
 \label{tab:protocolo-reproducibilidad}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
 \hline
@@ -746,6 +722,7 @@ En esta hipótesis se evaluó tanto la etapa de anonimización local con Microso
 \begin{table}[htbp]
 \centering
 \caption{Resultados de anonimización de entidades sensibles (H1)}
+\vspace{0.3cm}
 \label{tab:resultados-h1-anonimizacion}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|}
 \hline
@@ -763,6 +740,7 @@ Tasa de falsos negativos & 2.9\% & $\leq$ 5\% & Sí \\
 \begin{table}[htbp]
 \centering
 \caption{Desempeño de extracción documental por tipo de entidad (H1)}
+\vspace{0.3cm}
 \label{tab:resultados-h1-extraccion}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|c|}
 \hline
@@ -790,6 +768,7 @@ El desempeño del modelo de clasificación (Verde, Amarillo, Rojo) se comparó c
 \begin{table}[htbp]
 \centering
 \caption{Concordancia entre clasificación automática y evaluación experta (H2)}
+\vspace{0.3cm}
 \label{tab:resultados-h2-kappa}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|}
 \hline
@@ -813,6 +792,7 @@ Se ejecutaron 300 eventos de prueba para validar la respuesta del motor de regla
 \begin{table}[htbp]
 \centering
 \caption{Resultados de automatización operativa del motor de reglas (H3)}
+\vspace{0.3cm}
 \label{tab:resultados-h3-reglas}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|}
 \hline
@@ -838,6 +818,7 @@ La evaluación del módulo de monitoreo se enfocó en oportunidad de detección 
 \begin{table}[htbp]
 \centering
 \caption{Desempeño del módulo de notificaciones preventivas (H4)}
+\vspace{0.3cm}
 \label{tab:resultados-h4-notificaciones}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|}
 \hline
@@ -863,6 +844,7 @@ Los resultados muestran una alta capacidad de monitoreo preventivo, con una leve
 \begin{table}[htbp]
 \centering
 \caption{Comparativa de desempeño entre proceso manual y proceso automatizado}
+\vspace{0.3cm}
 \label{tab:comparativa-manual-vs-ia}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|c|}
 \hline
@@ -899,6 +881,20 @@ En conjunto, el Hub 360º propuesto muestra mejoras sustanciales respecto al pro
 
 Esta sección consolida la planeación operativa y financiera para ejecutar la iniciativa de forma controlada, medible y alineada con los objetivos de negocio de El Cuino S.A. de C.V. El enfoque de gestión busca asegurar cumplimiento en tiempo, alcance, costos y calidad, con mecanismos de seguimiento para reducir desvíos durante la implementación.
 
+% ==================== 2. Reglas y Calendario ====================
+
+\section{Reglas de la licitación y calendario}
+El proceso de licitación se regirá por el siguiente calendario estricto. Las propuestas
+recibidas fuera de la fecha límite serán descalificadas automáticamente.
+\begin{itemize}
+    \item Emisión del RFP: 24 de Junio de 2026.
+    \item Recepción de dudas y preguntas: Hasta el 01 de Julio de 2026.
+    \item Respuestas a dudas por parte de Bafar: 03 de Julio de 2026.
+    \item Fecha Límite para Entrega de Propuestas: 06 de Julio de 2026 (18:00 hrs, CDMX).
+    \item Presentación y Defensa (Pitch) de Finalistas: 03 al 07 de Agosto de 2026.
+    \item Fallo y Adjudicación del Proyecto: 14 de Agosto de 2026.
+\end{itemize}
+
 \subsection{Cronograma}
 
 El cronograma define la secuencia de trabajo por fases, dependencias críticas y ventanas de validación con usuarios clave. Se estructura para habilitar entregas incrementales, de manera que cada hito aporte valor operativo y permita tomar decisiones de continuidad con evidencia técnica.
@@ -934,6 +930,17 @@ La gestión de entregables se plantea por resultados verificables al cierre de c
 \label{fig:presupuesto-hub360}
 \end{figure}
 
+
+\subsection{Oportunidades de Trabajo Futuro}
+
+\begin{enumerate}
+    \item \textbf{Auditoría de Ciberseguridad B2B:} Expandir el motor de IA para auditar automáticamente las posturas de seguridad y el cumplimiento de normativas cibernéticas de los socios comerciales y aliados estratégicos, blindando la red de la empresa.
+    
+    \item \textbf{Optimización Predictiva de Compras:} Evolucionar el sistema para que analice el historial de contratos y sugiera proactivamente las mejores fechas para renegociar tarifas o renovar acuerdos.
+    
+    \item \textbf{Asistente Cognitivo Corporativo:} Desarrollar una interfaz conversacional interna donde los directivos puedan consultar el estatus legal y operativo de cualquier proveedor en segundos mediante lenguaje natural.
+\end{enumerate}
+
 \subsection{Cierre y conclusiones}
 
 La implementación del Hub 360º de Gestión de Proveedores representa la transformación estratégica que El Cuino S.A. de C.V. necesita para ahorrarse las más de 4,000 horas anuales que hoy se pierden en revisiones manuales de contratos.
@@ -955,35 +962,26 @@ Finalmente, cada dato de los proveedores y representantes legales es anonimizado
     Ortega Ovalle, M. T. (2026). \textit{Estado del Arte de la Ingeniería de Software Basada en Inteligencia Artificial}. Prisma ODS: Revista Multidisciplinaria sobre Desarrollo Sostenible, 5(2), 21--37. \newline
     \textit{DOI:} \url{https://doi.org/10.65011/prismaods.v5.i2.193}
 
-    \textbf{Relevancia para la investigación:} Este artículo proporciona una revisión sistemática sobre cómo la IA ha transformado el desarrollo y gestión de software mediante el uso de modelos generativos, el aprendizaje profundo y los sistemas autónomos. Es fundamental para el diseño arquitectónico del Hub 360º, ya que analiza críticamente la automatización en tareas complejas de orquestación, integración de pipelines DevOps y, crucialmente, discute las limitaciones actuales de los modelos de IA en torno a la interpretabilidad, ciberseguridad, sesgos algorítmicos y gobierno de datos. Esta base científica justifica metodológicamente la adopción de una arquitectura híbrida y segura frente a las vulnerabilidades de los sistemas de caja negra tradicionales.
-
     \item \textbf{Multimodal y Visión Documental de Alto Rendimiento}
 
     Baidu. (2025). \textit{ERNIE 4.5 Technical Report}. Baidu Research. \newline
     \textit{URL:} \url{https://arxiv.org/abs/2506.xxxxx}
-
-    \textbf{Relevancia para la investigación:} El reporte técnico del modelo ERNIE 4.5 profundiza en el estado del arte de las arquitecturas multimodales basadas en Mixture-of-Experts (MoE). Para El Cuino, donde el Módulo 1 (Ingesta y Extracción) exige procesar contratos no estructurados e imágenes de certificaciones sanitarias (como los sellos TIF y documentos de SENASICA), esta referencia es vital. El documento detalla el rendimiento del procesamiento conjunto de texto (\textit{textual modality}) y distribución espacial visual (\textit{spatial/visual modality}), sirviendo de sustento científico para superar la rigidez del OCR clásico por plantillas y garantizar el Accuracy mínimo del 92\% bajo estándares internacionales de comprensión documental.
 
     \item \textbf{Resolución de Correferencias para la Comprensión de Cláusulas Complejas}
 
     Novák, M., Dohnalová, B., Konopik, M., Nedoluzhko, A., Popel, M., Prazak, O., Sido, J., Straka, M., Žabokrtský, Z., \& Zeman, D. (2024). \textit{Findings of the third shared task on multilingual coreference resolution}. In Proceedings of the Seventh Workshop on Computational Models of Reference, Anaphora and Coreference (pp. 78--96). Association for Computational Linguistics. \newline
     \textit{URL:} \url{https://aclanthology.org/2024.crac-1.8}
 
-    \textbf{Relevancia para la investigación:} La extracción semántica en contratos legales no solo requiere identificar entidades aisladas, sino también resolver cuándo diferentes expresiones lingüísticas se refieren al mismo proveedor, acuerdo o penalización a lo largo del documento (resolución de correferencias). Este trabajo de la ACL Anthology evalúa el rendimiento de los codificadores multilingües en la resolución de correferencias a nivel de palabra. Su inclusión en el marco teórico de la tesis fundamenta el uso de modelos avanzados de lenguaje (NLP) para mapear correctamente las intrincadas cláusulas de rescisión, SLAs y días de pago de El Cuino, minimizando las alucinaciones semánticas en la extracción de reglas de negocio críticas.
-
     \item \textbf{Ajuste Fino Local y Optimización de Modelos de Lenguaje (LLMs)}
 
     Zignuts Technolab. (2026). \textit{Advanced Fine-Tuning LLaMA 3 Guide: 2026 Technical Deep Dive}. Zignuts Technolab. \newline
     \textit{URL:} \url{https://zignuts.com/blog/llama-3-fine-tuning-guide-2026}
 
-    \textbf{Relevancia para la investigación:} Dado que los contratos y documentos regulatorios de inocuidad alimentaria en México poseen una terminología sumamente especializada, los modelos genéricos comerciales pueden requerir adaptación. Esta guía técnica de 2026 provee la metodología científica para realizar un fine-tuning avanzado de modelos de código abierto (como LLaMA 3). Al implementar técnicas de optimización eficiente en parámetros (PEFT) como QLoRA y alineación de preferencias, se justifica teóricamente cómo El Cuino puede desplegar un modelo altamente especializado localmente en su propia VPC sin incurrir en la deuda técnica ni en el exorbitante gasto de computación de un reentrenamiento desde cero.
-
     \item \textbf{Ingeniería Económica y Evaluación del Costo Total de Propiedad (TCO)}
 
     \textit{Introducing LCOAI: A Standardized Economic Metric for Evaluating AI Deployment Costs}. (2023). arXiv. \newline
     \textit{URL:} \url{https://arxiv.org/abs/2303.xxxxx}
-
-    \textbf{Relevancia para la investigación:} La propuesta técnica para El Cuino no solo debe ser viable a nivel científico, sino también económicamente sostenible para el negocio (el TCO representa el 25\% de la evaluación de la licitación). Este reporte introduce la métrica estandarizada LCOAI (Levelized Cost of AI), diseñada para medir de forma rigurosa los costes de despliegue, cómputo por inferencia e infraestructura en la nube (como las VPC dedicadas). Utilizar esta métrica en la tesis de maestría permite comparar de manera matemática y estructurada la eficiencia de costos del sistema híbrido propuesto (con Microsoft Presidio y APIs eficientes) frente a las tarifas de consumo ilimitado de la competencia tradicional, sustentando el retorno de inversión (ROI) del proyecto.
+    
 \end{enumerate}
 
 
