@@ -4,6 +4,7 @@
 \usepackage{lmodern}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{csquotes}
 \usepackage[style=apa,backend=biber]{biblatex}
 \usepackage{titling}
 \usepackage{setspace}
@@ -15,146 +16,119 @@
 \begin{document}
 \author{Carlos Sebastian Madrigal Rodriguez}
 \title{
-    \textbf{Impact of Vector Databases on Information Retrieval for AI Agents Specialized in SDN API Documentation}
+    \textbf{Impacto de las Bases de Datos Vectoriales en la Recuperación de Información para Agentes de IA Especializados en Documentación de API SDN}
 }
 \date{\today}
 
 \maketitle
 
-% ==================== Introduction ====================
+% ==================== Introducción ====================
 
-\section{Introduction}
+\section{Introducción}
 \label{sec:introduction} 
 
-As modern networks become increasingly software-defined and API-driven, automation platforms expose numerous APIs for configuration, monitoring, troubleshooting, and operational management. However, the complexity and volume of technical documentation and hardcoded API interactions make it difficult for both automation systems and network engineers to efficiently identify and utilize the appropriate APIs, limiting the effectiveness of network automation.
+Las redes modernas definidas por software (SDN) exponen numerosas APIs para configuración, monitoreo y gestión operativa. Sin embargo, el volumen y la complejidad de la documentación técnica dificultan que los ingenieros y sistemas de automatización identifiquen eficientemente las APIs apropiadas.
 
-Retrieval-Augmented Generation (RAG) architectures provide a promising approach to this challenge by combining large language models with external knowledge sources. Through semantic retrieval, these systems can access and reason over technical documentation in real time, enabling AI agents to discover relevant APIs and support automation workflows beyond traditional keyword-based search \parencite{lewis2020rag,wu2024ragsurvey}.
+Las arquitecturas de Generación Aumentada por Recuperación (RAG, por sus siglas en inglés) ofrecen un enfoque prometedor para este desafío al combinar grandes modelos de lenguaje con fuentes de conocimiento externas. Mediante la recuperación semántica, estos sistemas pueden acceder y razonar sobre documentación técnica en tiempo real, permitiendo que los agentes de IA descubran APIs relevantes y apoyen flujos de trabajo de automatización más allá de la búsqueda tradicional basada en palabras clave \parencite{lewis2020rag,wu2024ragsurvey}.
 
-Vector databases constitute a key component of RAG architectures by enabling efficient similarity searches over embedded representations of documentation. This capability may improve the discovery of relevant technical information and facilitate contextual reasoning over large API repositories \parencite{johnson2019faiss}.
+Las bases de datos vectoriales constituyen un componente clave de las arquitecturas RAG al permitir búsquedas de similitud eficientes sobre representaciones vectoriales de la documentación. Esta capacidad puede mejorar el descubrimiento de información técnica relevante y facilitar el razonamiento contextual sobre grandes repositorios de APIs \parencite{johnson2019faiss}.
 
-Despite their growing adoption, the effectiveness of vector databases for technical documentation retrieval in network automation remains insufficiently understood. This research therefore investigates the use of vector databases for AI-driven retrieval of SDN API documentation and evaluates the performance of FAISS, PGVector, and Neo4j in terms of retrieval accuracy, response quality, and operational performance.
+A pesar de su creciente adopción, la efectividad de las bases de datos vectoriales para la recuperación de documentación técnica en la automatización de redes sigue siendo insuficientemente comprendida. Por lo tanto, esta investigación examina el uso de bases de datos vectoriales para la recuperación impulsada por IA de documentación de API SDN y evalúa el rendimiento de bases de datos líderes en la industria como FAISS, PGVector y Neo4j en términos de precisión de recuperación, calidad de respuesta y rendimiento operativo.
 
-% ==================== Materials and Methods ====================
+% ==================== Materiales y Métodos ====================
 
-\section{Materials and Methods}
+\section{Materiales y Métodos}
 \label{sec:Materials_and_Methods}
-\subsection{Hypothesis}
+\subsection{Hipótesis}
 
-\noindent\textbf{Hypothesis 1 (Main):}
-The incorporation of vector databases into RAG-based AI agents improves knowledge retrieval and API discovery in SDN documentation compared to traditional search methods.
+\noindent\textbf{Hipótesis 1 (Principal):}
+La incorporación de bases de datos vectoriales en agentes de IA basados en RAG mejora la recuperación de conocimiento y el descubrimiento de APIs en documentación SDN en comparación con los métodos de búsqueda tradicionales.
 
-\noindent\textbf{Hypothesis 2:}
-Vector database-based retrieval achieves higher retrieval accuracy than keyword-based search.
+\noindent\textbf{Hipótesis 2:}
+La recuperación basada en bases de datos vectoriales logra mayor precisión de recuperación que la búsqueda basada en palabras clave.
 
-\noindent\textbf{Hypothesis 3:}
-Implementations of vector databases like FAISS, PGVector, and Neo4j exhibit statistically significant differences in retrieval accuracy, response quality, and latency.
+\noindent\textbf{Hipótesis 3:}
+Las implementaciones de bases de datos vectoriales como FAISS, PGVector y Neo4j exhiben diferencias estadísticamente significativas en precisión de recuperación, calidad de respuesta y latencia.
 
-\noindent\textbf{Null Hypothesis:}
-The choice of vector database does not significantly affect the quality of responses generated by RAG-based AI agents.
+\noindent\textbf{Hipótesis Nula:}
+La elección de la base de datos vectorial no afecta significativamente la calidad de las respuestas generadas por los agentes de IA basados en RAG.\\
 
-Hypothesis 1 is the base of the investigation, while Hypotheses 2 and 3 are interdependant specific sub-hypotheses that will be tested to evaluate the overall impact. It might be possible that specific algorithms may align better with a specific set of data, for which hypothesis 3 is designed to evaluate the performance of different implementations, in this case: FAISS, PGVector, and Neo4j.
+\subsection{Adquisición de Datos y Consideraciones Éticas}
 
-\subsection{Data Acquisition and Ethical Considerations}
+El corpus experimental fue construido a partir de la documentación de API DevNet de Cisco SD-WAN disponible públicamente \parencite{cisco_sdwan_docs} y la especificación OpenAPI proporcionada por Cisco SD-WAN vManage \parencite{cisco_vmanage_openapi}.
 
-The experimental corpus was constructed from publicly available Cisco SD-WAN API DevNet documentation \parencite{cisco_sdwan_docs} and the OpenAPI specification provided by Cisco SD-WAN vManage \parencite{cisco_vmanage_openapi}.
+El contenido se procesa únicamente para apoyar los experimentos de recuperación; los documentos originales permanecen como propiedad de sus respectivos dueños y no se redistribuyen. Todas las fuentes se referencian para garantizar transparencia y reproducibilidad.
 
-API documentation content is processed into embeddings and stored within vector databases solely to support retrieval experiments. The original documents remain the intellectual property of their respective owners and are not redistributed as part of this research. References to all documentation sources are provided to ensure transparency and reproducibility.
-
-\subsection{Data Reconnaissance and Preprocessing}
-The JSON formatted API data that Cisco SD-WAN vManage OpenAPI specification \parencite{cisco_vmanage_openapi} already provides is parsed to extract relevant fields for indexing and retrieval. The main fields extracted are summarized in Table \ref{tab:openapi-fields}.
+\subsection{Reconocimiento y Preprocesamiento de Datos}
+Los datos de API en formato JSON que proporciona la especificación OpenAPI de Cisco SD-WAN vManage \parencite{cisco_vmanage_openapi} se analizan para extraer los campos relevantes para la indexación y recuperación. Los principales campos extraídos se resumen en la Tabla \ref{tab:openapi-fields}.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{|l|p{9cm}|}
         \hline
-        \textbf{Field} & \textbf{Meaning} \\
+        \textbf{Campo} & \textbf{Significado} \\
         \hline
-        path & API URL \\
+        path & URL de la API \\
         \hline
         method & GET/POST/PUT/DELETE \\
         \hline
-        tags & Functional category \\
+        tags & Categoría funcional \\
         \hline
-        summary & Short description \\
+        summary & Descripción breve \\
         \hline
-        description & Detailed description \\
+        description & Descripción detallada \\
         \hline
-        operationId & Unique operation name \\
+        operationId & Nombre único de operación \\
         \hline
-        parameters & Input parameters \\
+        parameters & Parámetros de entrada \\
         \hline
-        requestBody & Payload definition \\
+        requestBody & Carga útil de datos enviada\\
         \hline
-        responses & Output definition \\
+        responses & Definición de salida \\
         \hline
     \end{tabular}
-    \caption{Main API data structure.}
+    \caption{Estructura principal de datos de la API.}
     \label{tab:openapi-fields}
 \end{table}
 
-As a pre-processing task prior to vectorization, the key-value pairs are isolated and converted into natural language strings. For example, the API endpoint for retrieving device information might be transformed into a string like:
+Como tarea de preprocesamiento previa a la vectorización, los pares clave-valor se aíslan y convierten en cadenas de lenguaje natural. Por ejemplo, el endpoint de API para recuperar información de dispositivos podría transformarse en una cadena como la siguiente:
 
 \begin{quote}
-\textit{Administration - Audit Log}\\
-\textit{Endpoint: GET /auditlog/page}\\
-\textit{Operation: getStatBulkRawPropertyData}\\
-\textit{Description: Get raw property data in bulk.}\\
-\textit{Parameters:}\\
-\textit{ + query (required string)}\\
-\textit{ + scrollId (optional string)}\\
-\textit{ + count (required integer)}\\
-\textit{Returns: Audit log data.}
+\textit{Ruta: Administration - Audit Log} \ \textit{Endpoint: GET /auditlog/page}\\
+\textit{Operación: getStatBulkRawPropertyData}\\
+\textit{Descripción: Obtener datos de propiedades en bruto de forma masiva.}\\
+\textit{Parámetros: query (requerido), scrollId (opcional), count (requerido).}\\
+\textit{Retorna: Datos del registro de auditoría.}
 \end{quote}
-
-This insures that each structured JSON entry transforms to a single string chunk capturing full context. 
-\subsection{Data Treatment}
-Data will be processed through a common ingestion pipeline followed by three independent storage/retrieval backends. The ingestion pipeline will include text extraction, cleaning, and embedding generation using a consistent model (Qwen3-Embedding-4B, which is specifically designed for text embedding and ranking tasks) across all databases to ensure comparability. Each vector database will be configured according to best practices for optimal performance and retrieval accuracy. The overall architecture of the ingestion pipeline is illustrated in Figure \ref{fig:ingestion_pipeline}.
+\subsection{Tratamiento de Datos}
+Los datos serán procesados a través de un pipeline (flujo sequencial) de ingestión común seguido de tres backends independientes de almacenamiento y recuperación. El pipeline de ingestión incluirá extracción de texto, limpieza y generación de representaciones vectoriales utilizando un modelo consistente (Qwen3-Embedding-4B, diseñado específicamente para tareas de incrustación y clasificación de texto) en todas las bases de datos para garantizar la comparabilidad. Cada base de datos se configurará siguiendo las mejores prácticas para un rendimiento y precisión de recuperación óptimos. La arquitectura general del pipeline de ingestión se ilustra en la Figura \ref{fig:ingestion_pipeline}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.7\textwidth]{Ingestion-Pipeline.png}
-    \caption{Ingestion pipeline for processing API data.}
+    \includegraphics[width=0.45\textwidth]{Ingestion-Pipeline.png}
+    \caption{Pipeline de ingestión para el procesamiento de datos de API.}
     \label{fig:ingestion_pipeline}
 \end{figure}
     
-\subsection{Evaluation Metrics}
-Retrieval results will be evaluated against a predefined set of queries designed to test various aspects of API discovery and information retrieval. Queries are subdivided into 3 groups and categorized based on complexity and relevance to typical network automation tasks:
+\subsection{Métricas de Evaluación}
+Los resultados de recuperación serán evaluados frente a un conjunto predefinido de consultas diseñadas para probar diversos aspectos del descubrimiento de APIs y la recuperación de información. Las consultas se subdividen en 3 grupos y se categorizan según su complejidad y relevancia para tareas típicas de automatización de redes:
 
 \begin{itemize}
-    \item \textbf{Group 1: Basic API Discovery}: Queries that require identifying specific API endpoints or parameters.
-    \item \textbf{Group 2: Contextual Understanding}: Queries that require understanding the context of API usage, such as dependencies or common use cases.
-    \item \textbf{Group 3: Complex Reasoning}: Queries that require multi-step reasoning or synthesis of information across multiple documentation sections.
+    \item \textbf{Grupo 1: Descubrimiento Básico de APIs}: Consultas que requieren identificar endpoints o parámetros de API específicos.
+    \item \textbf{Grupo 2: Comprensión Contextual}: Consultas que requieren comprender el contexto del uso de la API, como dependencias o casos de uso comunes.
+    \item \textbf{Grupo 3: Razonamiento Complejo}: Consultas que requieren razonamiento en múltiples pasos o síntesis de información a través de varias secciones de documentación.
 \end{itemize}
 
-Each group contains 15 queries, resulting in a total of 45 queries for evaluation. 
-
-Retrieval accuracy will be evaluated on 4 different factors based on the relevance of retrieved documents to the query.
+Cada grupo contiene 15 consultas (45 en total). La precisión de recuperación se evaluará con cuatro métricas:
 
 \begin{itemize}
-    \item \textbf{Precision@K}: Proportion of relevant documents in top K results.
-    \[
-    \frac{\text{Number of relevant documents retrieved in top K}}{K}
-    \]
-    \item \textbf{Recall@K}: The proportion of relevant documents that were retrieved out of all relevant documents within the top K results:
-    \[
-    \frac{\text{Number of relevant documents retrieved in top K}}{\text{Total number of relevant documents}}
-    \]
-    \item \textbf{MRR (Mean Reciprocal Rank)}: The average of the reciprocal ranks of the first relevant document for each query:
-    \[
-    \frac{1}{|Q|} \sum_{i=1}^{|Q|} \frac{1}{\text{rank}_i}
-    \]
-    where \(\text{rank}_i\) is the rank of the first relevant document for query \(i\).
-    \item \textbf{F1-score@K}: The harmonic mean of Precision@K and Recall@K:
-    \[
-    2 \cdot \frac{\text{Precision@K} \cdot \text{Recall@K}}{\text{Precision@K} + \text{Recall@K}}
-    \]
+    \item \textbf{Precisión@K}: Fracción de documentos relevantes en los K primeros resultados: $\frac{\text{relevantes en top-}K}{K}$
+    \item \textbf{Recall@K}: Fracción de documentos relevantes recuperados sobre el total relevante: $\frac{\text{relevantes en top-}K}{\text{total relevantes}}$
+    \item \textbf{MRR}: Promedio de los rangos recíprocos del primer documento relevante por consulta: $\frac{1}{|Q|} \sum_{i=1}^{|Q|} \frac{1}{\text{rank}_i}$
+    \item \textbf{F1@K}: Media harmónica de Precisión@K y Recall@K: $2 \cdot \frac{P@K \cdot R@K}{P@K + R@K}$
 \end{itemize}
 
-Response quality will be assessed through human evaluation, where the usefulness and correctness of the retrieved information are rated on a Likert scale. 
+La calidad de respuestas se evaluará con escala Likert y la latencia se medirá desde el envío de la consulta hasta la respuesta, con temporización automatizada.
 
-Latency will be measured as the time taken from query submission to retrieval response, where automation will be used to ensure consistent timing across all tests.
-
-\clearpage 
-
-\printbibliography
+\printbibliography[title={Referencias}]
 
 \end{document}
