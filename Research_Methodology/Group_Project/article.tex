@@ -9,7 +9,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{float}
-\onehalfspacing
+\setstretch{1.2}
 \begin{document}
 
 \begin{center}
@@ -542,7 +542,11 @@ La información estructurada será procesada por un motor de Comprensión Semán
     \item Condiciones de pago.
 \end{itemize}
 
-El LLM opera sin entrenamiento adicional mediante recuperación contextual (RAG) y Prompt Engineering.
+El LLM operará bajo una arquitectura de Recuperación Aumentada por Generación (RAG), en la que la generación se condiciona con evidencia documental recuperada desde el índice vectorial para reducir alucinaciones y mejorar trazabilidad.
+
+Para la generación de representaciones vectoriales se utilizará un único modelo de embeddings y una base de datos vectorial dedicada, manteniendo fija la misma versión del modelo, dimensión de vector y métrica de similitud (coseno) durante todo el experimento para garantizar la comparabilidad entre corridas. Se propone \textbf{BAAI/bge-m3} (NVIDIA, 2026) por su alto desempeño en recuperación semántica multilingüe (incluyendo español técnico-legal), su robustez en documentos largos y su estabilidad para indexación consistente en escenarios RAG.
+
+Para el componente generativo y de razonamiento del expediente, se utilizará \textbf{LLaMA 3} como modelo base. En inferencia, cada predicción incorporará: (i) top-$k$ fragmentos recuperados del expediente del proveedor, (ii) plantilla de instrucción jurídica-operativa y (iii) salida estructurada para consumo del clasificador de riesgo.
 
 \subsection{Fase 5. Clasificación del Riesgo}
 
@@ -559,6 +563,8 @@ El modelo clasificará automáticamente cada proveedor dentro de alguno de los s
 \end{itemize}
 
 Posteriormente, la clasificación obtenida será comparada contra la evaluación realizada previamente por especialistas del área de cumplimiento.
+
+El modelo de clasificación de riesgo se implementará con \textbf{LLaMA 3 + RAG} y ajuste fino supervisado eficiente (\textit{parameter-efficient fine-tuning}). El plan de \textit{fine-tuning} será: (1) curación y balanceo de ejemplos etiquetados Verde/Amarillo/Rojo, (2) ajuste LoRA/QLoRA sobre LLaMA 3 con congelamiento del modelo base, (3) validación estratificada y calibración de umbrales de riesgo, y (4) evaluación final contra \textit{ground truth} experto con métricas de Accuracy, F1 y Cohen's Kappa. Este enfoque permite especializar el clasificador al dominio contractual de El Cuino sin reentrenamiento completo, controlando costo computacional y manteniendo la extensión objetivo del documento (28 páginas).
 
 \subsection{Fase 6. Automatización de Procesos}
 Se evaluará la capacidad del sistema para ejecutar automáticamente acciones de negocio derivadas del análisis documental, garantizando consistencia con políticas organizacionales. Cada regla contiene: Condición, Acción y Prioridad.
@@ -954,7 +960,6 @@ La implementación del Hub 360º representa la transformación estratégica nece
 
 Financieramente, la inversión de 210,000 USD se recupera en 8.3 meses, generando ahorros anuales de 302,700 USD por la reducción del 80.9\% en tiempos de procesamiento. Con anonimización local de datos y control corporativo, la organización resuelve desafíos actuales mientras se posiciona a la vanguardia tecnológica y regulatoria del sector.
 
-
 \section{Referencias Bibliográficas}
 
 \begin{enumerate}
@@ -982,9 +987,12 @@ Financieramente, la inversión de 210,000 USD se recupera en 8.3 meses, generand
 
     \textit{Introducing LCOAI: A Standardized Economic Metric for Evaluating AI Deployment Costs}. (2023). arXiv. \newline
     \textit{URL:} \url{https://arxiv.org/abs/2303.xxxxx}
+
+    \item \textbf{Modelo de Embeddings Seleccionado para Recuperación Semántica}
+
+    NVIDIA. (2026). \textit{BAAI/bge-m3 - Model Card}. NVIDIA Build. \newline
+    \textit{URL:} \url{https://build.nvidia.com/baai/bge-m3/modelcard}
     
 \end{enumerate}
-
-
 
 \end{document}
