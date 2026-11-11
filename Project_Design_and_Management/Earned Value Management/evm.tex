@@ -1,0 +1,247 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noquoting,es-tabla]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{carlito}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{evmblue}{HTML}{4F9AC8}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.3em}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.2}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\setlist{nosep,leftmargin=1.6em}
+
+\begin{document}
+\onehalfspacing
+
+\begin{center}
+  {\large\bfseries Método de Gestión del Valor Ganado (EVM)}\\[0.6em]
+{\large\bfseries Carlos Sebastián Madrigal Rodríguez}\\[0.8em]
+\end{center}
+
+Se parte de un proyecto de desarrollo de software
+cuya duración estimada es de seis meses y cuyo costo total estimado es de
+\$115\,000. Los valores planificados y acumulados para cada mes del proyecto son
+los siguientes:
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|*{7}{C{1.7cm}|}}
+\hline
+\rowcolor{evmblue}
+\color{white}\textbf{Meses} &
+\color{white}\textbf{1} &
+\color{white}\textbf{2} &
+\color{white}\textbf{3} &
+\color{white}\textbf{4} &
+\color{white}\textbf{5} &
+\color{white}\textbf{6} &
+\color{white}\textbf{Total} \\
+\hline
+Línea base de costo del proyecto (PV) &
+\$23\,000 & \$15\,000 & \$16\,000 & \$19\,000 & \$20\,000 & \$22\,000 & \$115\,000 \\
+\hline
+\rowcolor{evmblue!12}
+Valores acumulados de PV &
+\$23\,000 & \$38\,000 & \$54\,000 & \$73\,000 & \$93\,000 & \$115\,000 & \$115\,000 \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section*{Parte A. Control del proyecto en el mes 3}
+
+Teniendo como referencia esta línea base, supongamos que el proyecto se
+encuentra en el mes 3 de ejecución. Contamos con mediciones reales del trabajo
+realizado y del costo real hasta ese mes, cuyos valores se recogen en la
+siguiente tabla:
+
+\begin{table}[htbp]
+\centering
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|*{7}{C{1.7cm}|}}
+\hline
+\rowcolor{evmblue}
+\color{white}\textbf{Meses} &
+\color{white}\textbf{1} &
+\color{white}\textbf{2} &
+\color{white}\textbf{3} &
+\color{white}\textbf{4} &
+\color{white}\textbf{5} &
+\color{white}\textbf{6} &
+\color{white}\textbf{Total} \\
+\hline
+Costo real (AC) &
+\$21\,000 & \$18\,000 & \$19\,000 & -- & -- & -- & \$58\,000 \\
+\hline
+\rowcolor{evmblue!12}
+Valores acumulados de AC &
+\$21\,000 & \$39\,000 & \$58\,000 & -- & -- & -- & \$58\,000 \\
+\hline
+Avance real (trabajo realizado) &
+8\,\% & 15\,\% & 14\,\% & -- & -- & -- & 37\,\% \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection*{Indicadores de valor ganado}
+
+Para el análisis se considera un presupuesto al término (BAC) de \$115\,000.
+Al cierre del mes 3, el valor planificado acumulado (PV) es \$54\,000 y el
+costo real acumulado (AC) es \$58\,000. El avance real acumulado es la suma
+de 8\%, 15\% y 14\%, es decir, 37\%, por lo que el valor ganado (EV) es:
+
+\[
+EV = BAC \times 0{,}37 = \$115\,000 \times 0{,}37 = \$42\,550.
+\]
+
+\begin{itemize}
+  \item \textbf{Índice de desempeño del costo (CPI):}
+  $EV/AC = 42\,550/58\,000 \approx 0{,}73$.
+  \item \textbf{Índice de desempeño del cronograma (SPI):}
+  $EV/PV = 42\,550/54\,000 \approx 0{,}79$.
+  \item \textbf{Variación del costo (CV):}
+  $EV-AC = 42\,550-58\,000 = -\$15\,450$.
+  \item \textbf{Variación del cronograma (SV):}
+  $EV-PV = 42\,550-54\,000 = -\$11\,450$.
+\end{itemize}
+
+\subsection*{Respuestas}
+
+\begin{enumerate}
+  \item \textbf{¿El proyecto va por encima o por debajo del presupuesto?}
+  Va por encima del presupuesto para el trabajo realizado. El CPI es menor que
+  1 y la variación del costo es negativa: se han gastado \$58\,000 en trabajo
+  cuyo valor presupuestado es \$42\,550.
+
+  \item \textbf{¿El proyecto va retrasado o adelantado?}
+  Va retrasado. El SPI es menor que 1 y el trabajo completado tiene un valor
+  \$11\,450 inferior al que estaba planificado para el mes 3.
+
+  \item \textbf{¿Cuál será el costo estimado al finalizar el proyecto a este
+  ritmo?}
+  Si se mantiene el desempeño actual del costo, la estimación al término (EAC)
+  es:
+  \[
+  EAC = BAC/CPI = \$115\,000/(42\,550/58\,000) \approx \$156\,757.
+  \]
+  Esto representa un sobrecosto estimado de aproximadamente \$41\,757 frente
+  al presupuesto original.
+
+  \item \textbf{¿Cuándo se estima finalizar el proyecto a este ritmo?}
+  Usando el SPI actual como proyección lineal del desempeño del cronograma, la
+  duración estimada es:
+  \[
+  6/SPI = 6/0{,}7880 \approx 7{,}61.
+  \]
+  Por tanto, se estima una duración de 7,61 meses y un retraso de
+  aproximadamente 1,61 meses respecto de
+  los seis meses previstos. Es una proyección aproximada que supone que el SPI
+  se mantiene durante el resto del proyecto.
+
+  \item \textbf{¿Qué se podría hacer para controlar el proyecto?}
+  \begin{itemize}
+    \item \textbf{Recuperar el desempeño del costo:} revisar las variaciones
+    por paquete de trabajo para identificar sus causas; reforzar el control de
+    cambios para evitar trabajo no aprobado y renegociar compras o asignaciones
+    que no sean críticas. Actualizar el EAC después de aplicar las medidas.
+    \item \textbf{Reducir el retraso:} revisar la ruta crítica y los bloqueos,
+    reasignar personal con las habilidades necesarias a las actividades
+    críticas y evaluar la ejecución en paralelo de tareas que no dependan
+    entre sí. Antes de acelerar, valorar el costo adicional y los riesgos para
+    la calidad.
+    \item \textbf{Intensificar el seguimiento:} actualizar PV, EV y AC con
+    mayor frecuencia, revisar CPI y SPI en cada corte y asignar responsables y
+    fechas a las acciones correctivas.
+  \end{itemize}
+\end{enumerate}
+
+\section*{Parte B: Mes 5}
+
+En el mes 5 se cuenta con las siguientes mediciones reales:
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\begin{tabularx}{0.95\textwidth}{|>{\raggedright\arraybackslash}X|*{7}{C{1.5cm}|}}
+\hline
+\rowcolor{evmblue} \color{white}\textbf{Meses} &
+\color{white}\textbf{1} &
+\color{white}\textbf{2} &
+\color{white}\textbf{3} &
+\color{white}\textbf{4} &
+\color{white}\textbf{5} &
+\color{white}\textbf{6} &
+\color{white}\textbf{Total} \\
+\hline
+Costo real (AC) & \$21k & \$18k & \$19k & \$20k & \$21k & -- & \$99k \\
+\hline
+Acum.\ AC & \$21k & \$39k & \$58k & \$78k & \$99k & -- & \$99k \\
+\hline
+Avance & 8\,\% & 15\,\% & 14\,\% & 21\,\% & 22\,\% & -- & 80\,\% \\
+\hline
+\end{tabularx}
+\end{table}
+
+Al cierre del mes 5, PV acumulado es \$93\,000 (línea base) y AC acumulado es
+\$99\,000. El avance real acumulado es 8\,\% + 15\,\% + 14\,\% + 21\,\% +
+22\,\% = 80\,\%, por lo que:
+
+\[
+EV = BAC \times 0{,}80 = \$115\,000 \times 0{,}80 = \$92\,000.
+\]
+
+\textbf{Indicadores:}
+\begin{itemize}
+  \item $CPI = EV/AC = 92\,000/99\,000 \approx 0{,}93$.
+  \item $SPI = EV/PV = 92\,000/93\,000 \approx 0{,}99$.
+  \item $CV = EV - AC = 92\,000 - 99\,000 = -\$7\,000$.
+  \item $SV = EV - PV = 92\,000 - 93\,000 = -\$1\,000$.
+  \item $EAC = BAC/CPI = 115\,000/0{,}93 \approx \$123\,656$.
+  \item Duración: $6/SPI = 6/0{,}99 \approx 6{,}06$ meses.
+\end{itemize}
+
+\subsection*{Respuestas}
+
+\begin{enumerate}
+  \item \textbf{¿El proyecto va por encima o por debajo del presupuesto?}
+  Va por encima: $CPI=0{,}93<1$ y $CV=-\$7\,000<0$. Se ha gastado más de lo
+  presupuestado para el trabajo completado, aunque la mejora respecto al mes 3
+  es significativa.
+
+  \item \textbf{¿El proyecto va retrasado o adelantado?}
+  Va ligeramente retrasado: $SPI=0{,}99<1$ y $SV=-\$1\,000<0$. El valor del
+  trabajo completado es inferior al planificado, pero el retraso es mínimo
+  comparado con el mes 3.
+
+  \item \textbf{¿Cuál será la estimación de costo al finalizar?}
+  $EAC\approx\$123{,}656$, un sobrecosto estimado de \$8{,}656. Mejora
+  sustancial frente a los \$156{,}757 proyectados en el mes 3.
+
+  \item \textbf{¿Se finalizará el proyecto con retraso o adelanto?}
+  Con retraso: la duración estimada es 6,06 meses, aproximadamente 0,06 meses
+  (aproximadamente 2 días) después de lo planificado. Es un retraso mínimo
+  comparado con los 1,61 meses del mes 3.
+
+  \item \textbf{¿Las medidas tomadas en el mes 3 tuvieron efecto positivo o
+  negativo?}
+  Tuvieron efecto \textbf{positivo}. Los indicadores mejoraron notablemente:
+  CPI aumentó de 0,73 a 0,93 (28\,\%), SPI de 0,79 a 0,99 (25\,\%), CV de
+  -\$15{,}45k a -\$7k (55\,\% de mejora) y SV de -\$11{,}45k a -\$1k (91\,\%
+  de mejora). Aunque no es prueba definitiva de causalidad, la evolución
+  consistente y sustancial en dos meses sugiere que las acciones correctivas
+  implementadas fueron efectivas en reducir desviaciones de costo y cronograma.
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,198 @@
+
+
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noquoting,es-tabla]{babel}
+\usepackage{carlito}                 % Calibri
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing                      % interlineado 1,5
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{0pt}
+\setlist{nosep, leftmargin=1.4em}
+\renewcommand{\arraystretch}{1.15}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% ---------------------------------------------------------------------
+% >>> Integrantes
+\newcommand{\IntA}{Carlos Alfonso Gonzalez Perez}
+\newcommand{\IntB}{Carlos Sebastian Madrigal Rodriguez}
+\newcommand{\IntC}{3}
+% ---------------------------------------------------------------------
+
+\newtcolorbox{redactar}[1]{
+  colback=gray!6, colframe=gray!45, boxrule=0.5pt, arc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt,
+  fonttitle=\bfseries\small, coltitle=black, colbacktitle=gray!18,
+  title={#1}, before skip=6pt, after skip=8pt
+}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries Planeación de un sprint en el marco de trabajo Scrum}\\[0.3em]
+  {\large Portal de solicitudes de vacaciones con flujo de aprobación}\\[0.6em]
+  \IntA \quad·\quad \IntB \quad·\quad \IntC\\[0.2em]
+  {\small\today}
+\end{center}
+
+% =====================================================================
+\section{Descripción del proyecto}
+
+\textbf{Empresa.} Nexora Soluciones es una consultora de software que se especializa en aplicaciones para gestionar procesos internos. \textbf{Cliente.} Su cliente, Grupo Industrial Valtek, tiene 800 empleados y actualmente maneja las vacaciones con formularios en papel, lo que causa problemas en la gestión.
+
+\textbf{Producto.} Un portal web permite a cada empleado consultar su saldo de días, registrar solicitudes de vacaciones y seguir su estado. Los jefes aprueban o rechazan y Recursos Humanos obtiene reportes.
+
+\textbf{Objetivo.} Reducir el tiempo de aprobación de una solicitud de más de siete días a menos de 48 horas y eliminar los errores en el cálculo de saldos, dejando trazabilidad completa de cada decisión.
+
+% =====================================================================
+\section{Asignación de roles Scrum}
+
+Al ser tres integrantes, se combinan roles respetando que el product owner no
+desarrolle, para que pueda representar al cliente sin conflicto de intereses.
+
+\begin{table}[H]
+\centering
+\caption{Roles del equipo Scrum.}
+\begin{tabularx}{\textwidth}{lL}
+\toprule
+\textbf{Integrante} & \textbf{Rol y responsabilidad principal} \\
+\midrule
+\IntA & \textbf{Product owner.} Representa al cliente, prioriza el
+        \emph{product backlog} y valida los criterios de aceptación. \\
+\IntB & \textbf{Scrum master y desarrollador.} Facilita los eventos,
+        elimina impedimentos y desarrolla la capa de servidor. \\
+\IntC & \textbf{Desarrollador.} Interfaz web, pruebas y despliegue. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================
+\section{Product backlog}
+
+Esfuerzo estimado en puntos de historia (escala de Fibonacci: 1, 2, 3, 5, 8,
+13), donde un valor mayor indica más complejidad e incertidumbre.
+
+\begin{table}[H]
+\centering
+\caption{Product backlog priorizado.}
+\small
+\begin{tabularx}{\textwidth}{lLcc}
+\toprule
+\textbf{ID} & \textbf{Historia de usuario} & \textbf{Prioridad} & \textbf{Puntos} \\
+\midrule
+HU-01 & Como \textbf{empleado}, quiero iniciar sesión con mi número de
+        empleado para acceder a mis datos de forma segura. & Alta & 3 \\
+HU-02 & Como \textbf{empleado}, quiero consultar mi saldo de días disponibles
+        para planear mis vacaciones. & Alta & 3 \\
+HU-03 & Como \textbf{empleado}, quiero registrar una solicitud indicando
+        fechas para pedir mis vacaciones sin usar papel. & Alta & 5 \\
+HU-04 & Como \textbf{jefe inmediato}, quiero aprobar o rechazar solicitudes
+        con un comentario para responder en tiempo. & Alta & 5 \\
+HU-05 & Como \textbf{empleado}, quiero recibir un correo cuando cambie el
+        estado de mi solicitud para no tener que revisar el portal. & Media & 3 \\
+HU-06 & Como \textbf{analista de RR.\,HH.}, quiero un reporte de vacaciones por
+        planta y departamento para planear la cobertura. & Media & 8 \\
+HU-07 & Como \textbf{analista de RR.\,HH.}, quiero consultar el historial de
+        cada solicitud para auditar quién la aprobó y cuándo. & Baja & 5 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================
+\section{Sprint backlog}
+
+\textbf{Objetivo del sprint (una semana).} Un empleado puede revisar su saldo y enviar una solicitud, mientras que su jefe puede aprobarla o rechazarla. Se escogen las HU-02, HU-03 y HU-04, que componen un flujo completo para prueba, sumando 13 puntos, factibles para dos desarrolladores en cinco días.
+
+\begin{table}[H]
+\centering
+\caption{Desglose de tareas del sprint.}
+\small
+\begin{tabularx}{\textwidth}{lLlc}
+\toprule
+\textbf{HU} & \textbf{Tarea} & \textbf{Responsable} & \textbf{Horas} \\
+\midrule
+HU-02 & Diseñar la tabla de saldos y la regla de cálculo por antigüedad & \IntB & 3 \\
+      & Programar el servicio que devuelve el saldo del empleado          & \IntB & 4 \\
+      & Maquetar la vista de saldo en el portal                            & \IntC & 3 \\
+      & Validar el cálculo con casos reales del cliente                    & \IntA & 2 \\
+\midrule
+HU-03 & Programar el registro de solicitudes y la validación de fechas    & \IntB & 6 \\
+      & Construir el formulario con calendario y mensajes de error         & \IntC & 5 \\
+      & Escribir pruebas de fechas traslapadas y saldo insuficiente        & \IntC & 3 \\
+      & Revisar los criterios de aceptación de la historia                 & \IntA & 1 \\
+\midrule
+HU-04 & Programar la bandeja de pendientes y la acción de aprobar/rechazar & \IntB & 5 \\
+      & Construir la vista del jefe con filtro por estado                  & \IntC & 4 \\
+      & Desplegar en el entorno de pruebas y preparar la demo              & \IntC & 2 \\
+      & Validar el flujo completo antes de la \emph{sprint review}         & \IntA & 2 \\
+\midrule
+      & \textbf{Total}                                                     &       & \textbf{40} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================
+\section{Reflexión individual}
+
+
+\subsection*{\IntA\ — Product owner}
+
+\begin{redactar}
+\small
+Durante el sprint, como encargado del producto, mi función principal sería garantizar que el grupo comprenda las demandas del cliente y que las historias elegidas ofrezcan valor al producto. Me ocuparía de evaluar y organizar el Product Backlog, aclarar inquietudes sobre los requisitos y verificar que las funcionalidades creadas satisfagan los criterios de aceptación establecidos. Uno de los principales obstáculos sería mantener una comunicación continua con el equipo y prevenir modificaciones innecesarias que puedan impactar en el objetivo del sprint. También prevendría como desafío definir adecuadamente las normas para el cálculo de saldos y la validación de las solicitudes, puesto que cualquier falla podría repercutir directamente en el usuario. Aportaría al esfuerzo del equipo brindando información pertinente, constatando los avances y participando en las revisiones. Considero que mi involucramiento resultaría esencial para mantener el énfasis en las necesidades del cliente y asegurar que el resultado final sea útil, claro y práctico.
+\end{redactar}
+
+\subsection*{\IntB\ — Scrum master y desarrollador}
+
+\begin{redactar}
+\small
+Durante el sprint, como Scrum Master y desarrollador, facilitaría las reuniones
+diarias para que el equipo comparta sus avances, identifique impedimentos y
+mantenga el enfoque en el objetivo acordado. También apoyaría la preparación de
+la revisión y la retrospectiva, procurando que la comunicación entre el Product
+Owner y los desarrolladores sea constante y que cualquier ajuste se valore de
+acuerdo con las prioridades del producto. En mi función de desarrollo,
+implementaría los servicios de servidor necesarios para consultar los saldos,
+registrar solicitudes y permitir que los jefes las aprueben o rechacen.
+
+Como retos principales anticiparia el mantener a la gente interesada y motivada 
+durante el sprint, asegurando que todos comprendan sus responsabilidades, se sientan 
+motivados y alineados con los objetivos del equipo. Aparte del enfoque de equipo,
+otro gran reto seria mantener los requerimientos claros y bien definidos, evitando 
+malentendidos y cambios inesperados que puedan afectar el progreso del equipo.
+Para dichos retos, aclararía los criterios de aceptación desde el inicio, dividiría 
+el trabajo en tareas verificables y colaboraría con el equipo en las pruebas del 
+flujo completo.
+\end{redactar}
+
+\subsection*{\IntC\ — Desarrollador}
+
+\begin{redactar}
+\small
+¿Qué tareas realizarías en tu rol durante el sprint? · ¿Qué retos anticipas? ·
+¿Cómo contribuirías al trabajo del equipo?
+\end{redactar}
+
+% =====================================================================
+\section{Conclusión grupal}
+
+\begin{redactar}
+\small
+¿Qué aprendimos como equipo sobre Scrum y el trabajo colaborativo? Resumir
+también las decisiones tomadas (por ejemplo, por qué se eligieron esas tres
+historias) y su impacto en el proceso.
+\end{redactar}
+
+\end{document}
